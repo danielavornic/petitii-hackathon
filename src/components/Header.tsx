@@ -64,7 +64,18 @@ export const Header = () => {
                 size="sm"
                 as="a"
                 href="#"
-                marginRight="0.5rem"
+                variant="link"
+                color="black"
+                fontSize="sm"
+                fontWeight="light"
+              >
+                RU
+              </Button>
+              <Box width="1px" height="20px" backgroundColor="gray.200" marginX="0.5rem" />
+              <Button
+                size="sm"
+                as="a"
+                href="#"
                 variant="link"
                 color="black"
                 fontSize="sm"
@@ -72,7 +83,7 @@ export const Header = () => {
               >
                 Ajutor
               </Button>
-              <Box width="1px" height="20px" backgroundColor="gray.200" marginRight="0.5rem" />
+              <Box width="1px" height="20px" backgroundColor="gray.200" marginX="0.5rem" />
               <Button
                 size="sm"
                 as="a"
