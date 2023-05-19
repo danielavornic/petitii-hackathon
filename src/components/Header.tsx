@@ -1,5 +1,4 @@
 import {
-  Link,
   Text,
   Button,
   Container,
@@ -16,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import { FaPlus } from "react-icons/fa";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useState } from "react";
 import { useUser } from "hooks";
 
@@ -49,7 +48,7 @@ export const Header = () => {
             padding="1.5"
           >
             <Text fontSize="sm">
-              <Link href="https://presedinte.md/">
+              <a href="https://presedinte.md/">
                 <Stack direction="row">
                   <Image
                     src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Emblema_Guvernului_Republicii_Moldova.png"
@@ -57,7 +56,7 @@ export const Header = () => {
                   />
                   <Text fontSize="sm">Site-ul oficial al Preşedinţiei RM</Text>
                 </Stack>
-              </Link>
+              </a>
             </Text>
             <Flex marginLeft="auto" alignItems="center" paddingRight="1rem">
               <Button
@@ -94,13 +93,13 @@ export const Header = () => {
                 fontWeight="light"
               >
                 {user ? (
-                  <Link href="/profile">
+                  <Link to="/profile">
                     <Text fontSize="sm" fontWeight="light">
                       {user.name} {user.surname}
                     </Text>
                   </Link>
                 ) : (
-                  <Link href="https://mpass.gov.md/login/saml/">
+                  <Link to="/mpass">
                     <Text fontSize="sm" fontWeight="light">
                       Autentificare
                     </Text>
@@ -112,7 +111,7 @@ export const Header = () => {
         </Grid>
 
         <Flex alignItems="center" w="full" paddingTop="0.5rem" paddingBottom="0.5rem" px={0}>
-          <Link href="/" _hover={{ textDecoration: "none" }}>
+          <Link to="/">
             <HStack role="group" spacing={4}>
               <img
                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Coat_of_arms_of_Moldova.svg/640px-Coat_of_arms_of_Moldova.svg.png"
@@ -137,11 +136,8 @@ export const Header = () => {
             fontWeight="bold"
             colorScheme="blue"
             size="lg"
-            as="a"
-            // href={user ? "/petitions/create" : "https://mpass.gov.md/login/saml/"}
-            href="petitions/create"
           >
-            Creaţi o petiţie
+            <Link to={user ? "/petitions/create" : "/mpass"}>Creaţi o petiţie</Link>
             <FaPlus />
           </Button>
           <Flex alignItems="center" paddingRight="0rem">
