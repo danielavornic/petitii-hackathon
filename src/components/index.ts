@@ -6,3 +6,4 @@ export * from "./PopularPetitionsList";
 export * from "./Homepage";
 export * from "./Pagination";
 export * from "./PetitionForm";
+export * from "./Footer";
