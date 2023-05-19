@@ -9,7 +9,10 @@ export const HomeHero = () => {
             Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor
           </Text>
           <Heading color={"white"} fontSize="6xl">
-            Lorem ipsum dolor sit amet <br /> <span className="font-serif">adipiscing elit</span>
+            Lorem ipsum dolor sit amet <br />{" "}
+            <span className="font-serif" style={{ fontWeight: 400 }}>
+              adipiscing elit
+            </span>
           </Heading>
         </Stack>
       </VStack>
