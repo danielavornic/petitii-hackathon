@@ -43,6 +43,9 @@ export const Pagination: React.FC<PaginationProps> = ({ page, setPage, totalPage
 
   const MButton: React.FC<{ left?: boolean }> = ({ left }) => {
     const DoubleArrow = left ? ArrowLeftIcon : ArrowRightIcon;
+    if (left && page === 1) {
+      return null;
+    }
     const [hovered, setHovered] = React.useState(false);
     const hoverColor = useColorModeValue("brand.800", "brand.700");
     const unHoverColor = useColorModeValue("gray.100", "gray.200");
