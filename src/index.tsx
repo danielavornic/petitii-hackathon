@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ChakraProvider, baseTheme, extendTheme } from "@chakra-ui/react";
 
 import { UserProvider } from "context";
-import { App, CreatePetition, Petition } from "pages";
+import { App, CreatePetition, Mpass, Msign, Petition } from "pages";
 
 import "@fontsource/libre-baskerville";
 import "@fontsource/inter";
@@ -35,8 +35,10 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<App />} />
-              <Route path="petitions/:petitionId" element={<Petition />} />
-              <Route path="petitions/create" element={<CreatePetition />} />
+              <Route path="/petitions/:petitionId" element={<Petition />} />
+              <Route path="/petitions/create" element={<CreatePetition />} />
+              <Route path="/msign" element={<Msign />} />
+              <Route path="/mpass" element={<Mpass />} />
             </Routes>
           </BrowserRouter>
         </UserProvider>

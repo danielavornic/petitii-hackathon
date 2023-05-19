@@ -1,10 +1,8 @@
-import { useState } from "react";
 import {
   Button,
   Checkbox,
   FormControl,
   FormErrorMessage,
-  FormHelperText,
   FormLabel,
   HStack,
   Input,
@@ -12,27 +10,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import Select from "react-select";
-import { Formik, Field, ErrorMessage } from "formik";
-
-interface PetitionFormData {
-  title: string;
-  content: string;
-  Category: string[];
-  region?: string;
-  toWho: string;
-  checkedData: boolean;
-  consentedData: boolean;
-}
-
-const initalState: PetitionFormData = {
-  title: "",
-  content: "",
-  Category: [],
-  toWho: "",
-  region: "",
-  checkedData: false,
-  consentedData: false,
-};
+import { PetitionFormData } from "types";
 
 const toWhoOptions = [
   { value: "guvern", label: "Guvern" },
@@ -49,10 +27,6 @@ const regionOptions = [
 ];
 
 const categories = [
-  {
-    value: "all",
-    label: "Toate categoriile",
-  },
   {
     value: "educatie",
     label: "Educatie",
@@ -95,10 +69,21 @@ const categories = [
   },
 ];
 
-export const PetitionForm = () => {
-  const [formData, setFormData] = useState(initalState);
-  const [errors, setErrors] = useState(initalState);
+interface PetitionFormProps {
+  formData: PetitionFormData;
+  setFormData: React.Dispatch<React.SetStateAction<PetitionFormData>>;
+  errors: PetitionFormData;
+  setErrors: React.Dispatch<React.SetStateAction<PetitionFormData>>;
+  setIsSubmitted: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
+export const PetitionForm = ({
+  formData,
+  setFormData,
+  errors,
+  setErrors,
+  setIsSubmitted,
+}: PetitionFormProps) => {
   const { title, content, Category, region, toWho } = formData;
 
   const isSubmitDisabled =
@@ -109,11 +94,9 @@ export const PetitionForm = () => {
     !formData.checkedData ||
     !formData.consentedData;
 
-  console.log(formData, isSubmitDisabled);
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData);
+    setIsSubmitted(true);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

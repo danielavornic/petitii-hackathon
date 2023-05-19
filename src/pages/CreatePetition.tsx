@@ -3,17 +3,39 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
+  Button,
   Container,
   Flex,
   Heading,
   Stack,
   VStack,
   useBreakpointValue,
+  Image,
 } from "@chakra-ui/react";
 
 import { Header, PetitionForm } from "components";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { PetitionFormData } from "types";
 
-export const CreatePetition = () => {
+const initalState: PetitionFormData = {
+  title: "",
+  content: "",
+  Category: [],
+  toWho: "",
+  region: "",
+  checkedData: false,
+  consentedData: false,
+};
+
+const CreatePetitionForm = ({
+  setIsSubmitted,
+}: {
+  setIsSubmitted: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
+  const [formData, setFormData] = useState(initalState);
+  const [errors, setErrors] = useState(initalState);
+
   return (
     <>
       <Header />
@@ -35,8 +57,57 @@ export const CreatePetition = () => {
         </VStack>
       </Flex>
       <Container maxW="8xl">
-        <PetitionForm />
+        <PetitionForm
+          formData={formData}
+          setFormData={setFormData}
+          errors={errors}
+          setErrors={setErrors}
+          setIsSubmitted={setIsSubmitted}
+        />
       </Container>
     </>
   );
+};
+
+const CreatePetitionSubmitted = () => {
+  const navigate = useNavigate();
+
+  const handleSignClick = () => {
+    // post petition
+    navigate("/petitions/1");
+  };
+
+  return (
+    <Container
+      maxW="8xl"
+      py={20}
+      h="100vh"
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      flexDir="column"
+    >
+      <Image src="https://msign.gov.md/images/msign-logo.png" w="50%" marginX="auto" />
+      <Button
+        size="lg"
+        colorScheme="purple"
+        marginX="auto"
+        display="block"
+        onClick={handleSignClick}
+        mt={20}
+      >
+        Semnează petiția
+      </Button>
+    </Container>
+  );
+};
+
+export const CreatePetition = () => {
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  if (!isSubmitted) {
+    return <CreatePetitionForm setIsSubmitted={setIsSubmitted} />;
+  }
+
+  return <CreatePetitionSubmitted />;
 };

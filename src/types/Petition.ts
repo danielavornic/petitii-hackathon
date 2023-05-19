@@ -15,3 +15,13 @@ export interface Petition {
   deadLine: string;
   Category: string[];
 }
+
+export interface PetitionFormData {
+  title: string;
+  content: string;
+  Category: string[];
+  region?: string;
+  toWho: string;
+  checkedData: boolean;
+  consentedData: boolean;
+}
