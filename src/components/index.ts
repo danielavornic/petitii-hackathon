@@ -1,3 +1,4 @@
+export * from "./Header";
 export * from "./PetitionCard";
 export * from "./PopularPetitionItem";
 export * from "./PetitionsList";
