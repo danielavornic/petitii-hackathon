@@ -1,4 +1,4 @@
-import { Stack, Flex, Button, Text, VStack, useBreakpointValue, Heading } from "@chakra-ui/react";
+import { Stack, Flex, Text, VStack, useBreakpointValue, Heading } from "@chakra-ui/react";
 
 export const HomeHero = () => {
   return (
@@ -11,19 +11,6 @@ export const HomeHero = () => {
           <Heading color={"white"} fontSize="6xl">
             Lorem ipsum dolor sit amet <br /> <span className="font-serif">adipiscing elit</span>
           </Heading>
-          {/* <Stack direction={"row"}>
-            <Button bg={"blue.400"} rounded={"full"} color={"white"} _hover={{ bg: "blue.500" }}>
-              Show me more
-            </Button>
-            <Button
-              bg={"whiteAlpha.300"}
-              rounded={"full"}
-              color={"white"}
-              _hover={{ bg: "whiteAlpha.500" }}
-            >
-              Show me more
-            </Button>
-          </Stack> */}
         </Stack>
       </VStack>
     </Flex>
