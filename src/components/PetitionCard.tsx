@@ -19,7 +19,7 @@ export const PetitionCard = ({ petition }: PetitionCardProps) => {
   const dateSplit = date.split("T")[0];
 
   return (
-    <Link to={`/petition/${id}`}>
+    <Link to={`/petitions/${id}`}>
       <Card
         direction={{ base: "column", sm: "row" }}
         justify="start"

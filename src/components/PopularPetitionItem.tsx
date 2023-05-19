@@ -13,7 +13,7 @@ export const PopularPetitionItem = ({ petition }: PopularPetitionItemProps) => {
   const progress = Math.floor((nrSign / nrSignNeeded) * 100);
 
   return (
-    <Link to={`/petition/${id}`}>
+    <Link to={`/petitions/${id}`}>
       <HStack spacing={4} role="group" w="full" justifyContent="space-between">
         <Heading size="sm" transition="all 0.2s" _groupHover={{ color: "primary.500" }}>
           {name}
