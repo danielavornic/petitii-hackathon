@@ -11,7 +11,7 @@ import {
   useBreakpointValue,
 } from "@chakra-ui/react";
 
-import { Header } from "components";
+import { Header, PetitionForm } from "components";
 
 export const CreatePetition = () => {
   return (
@@ -34,7 +34,9 @@ export const CreatePetition = () => {
           </Stack>
         </VStack>
       </Flex>
-      <Container maxW="8xl"></Container>
+      <Container maxW="8xl">
+        <PetitionForm />
+      </Container>
     </>
   );
 };
