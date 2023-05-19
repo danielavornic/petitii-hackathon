@@ -34,7 +34,7 @@ export const PetitionCard = ({ petition }: PetitionCardProps) => {
       >
         <CardBody flexDir="row" display="flex" alignItems="center">
           <VStack spacing={6} alignItems="start" flex="2" mr={12}>
-            <HStack alignItems="baseline" fontFamily="serif">
+            <HStack alignItems="baseline">
               {/* <FaCalendar color="#0BC5EA" /> */}
               <Text fontSize="lg">
                 {dateSplit} | #{Category[0]}

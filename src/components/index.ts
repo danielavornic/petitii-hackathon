@@ -2,4 +2,5 @@ export * from "./PetitionCard";
 export * from "./PopularPetitionItem";
 export * from "./PetitionsList";
 export * from "./PopularPetitionsList";
-export * from "./HomeHero";
+export * from "./Homepage";
+export * from "./Pagination";
