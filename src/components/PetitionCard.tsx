@@ -8,11 +8,15 @@ interface PetitionCardProps {
   petition: Petition;
 }
 
-export const PetitionCard = ({ petition, ...props }: PetitionCardProps) => {
+export const PetitionCard = ({ petition }: PetitionCardProps) => {
   const { id, initiator, name, date, nrSign, nrSignNeeded, deadLine, Category } = petition;
 
-  const daysLeft = Math.floor((deadLine.getTime() - new Date().getTime()) / (1000 * 3600 * 24));
+  const deadlineTime = new Date(deadLine);
+
+  const daysLeft = Math.floor((deadlineTime.getTime() - new Date().getTime()) / (1000 * 3600 * 24));
   const progress = Math.floor((nrSign / nrSignNeeded) * 100);
+
+  const dateSplit = date.split("T")[0];
 
   return (
     <Link to={`/petition/${id}`}>
@@ -26,16 +30,17 @@ export const PetitionCard = ({ petition, ...props }: PetitionCardProps) => {
         cursor="pointer"
         role="group"
         _hover={{ boxShadow: "sm" }}
+        w="full"
       >
         <CardBody flexDir="row" display="flex" alignItems="center">
-          <VStack spacing={6} alignItems="start" flex="2" mr={2}>
+          <VStack spacing={6} alignItems="start" flex="2" mr={12}>
             <HStack alignItems="baseline" fontFamily="serif">
               {/* <FaCalendar color="#0BC5EA" /> */}
               <Text fontSize="lg">
-                {date.toLocaleDateString()} | #{Category[0]}
+                {dateSplit} | #{Category[0]}
               </Text>
             </HStack>
-            <Heading size="lg" transition="all 0.2s" _groupHover={{ color: "primary.500" }}>
+            <Heading size="md" transition="all 0.2s" _groupHover={{ color: "primary.500" }}>
               {name}
             </Heading>
             <HStack alignItems="baseline">
@@ -49,7 +54,7 @@ export const PetitionCard = ({ petition, ...props }: PetitionCardProps) => {
           <VStack w="full" flex="0.6" alignItems="start" spacing={6}>
             <VStack w="full" alignItems="start">
               <HStack alignItems="baseline" justify="start" spacing={2}>
-                <Heading size="xl">{nrSign}</Heading>
+                <Heading size="lg">{nrSign}</Heading>
                 <Text fontSize="md" fontFamily="serif">
                   semnaturi
                 </Text>
