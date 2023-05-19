@@ -111,7 +111,7 @@ export const PetitionsSection = () => {
 
           <HStack h="40px" spacing={4}>
             <Button
-              variant={sortBy === "popular" ? "solid" : "outline"}
+              variant={sortBy === "popular" ? "outline" : "ghost"}
               colorScheme="blue"
               onClick={() => setSortBy("popular")}
               rounded="full"
@@ -120,7 +120,7 @@ export const PetitionsSection = () => {
             </Button>
             <Divider orientation="vertical" />
             <Button
-              variant={sortBy === "newest" ? "solid" : "outline"}
+              variant={sortBy === "newest" ? "outline" : "ghost"}
               colorScheme="blue"
               onClick={() => setSortBy("newest")}
               rounded="full"
