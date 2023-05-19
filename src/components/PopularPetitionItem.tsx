@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { CircularProgress, CircularProgressLabel, HStack, Heading, Text } from "@chakra-ui/react";
+import { CircularProgress, CircularProgressLabel, HStack, Heading } from "@chakra-ui/react";
 
 import { Petition } from "types";
 
