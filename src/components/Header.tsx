@@ -143,7 +143,7 @@ export const Header = () => {
                 handleSubmit(searchTerm);
               }}
             >
-              <InputGroup size="lg">
+              <InputGroup size="lg" w="450px">
                 <Input
                   placeholder="Căutaţi petiţia"
                   rounded="full"
