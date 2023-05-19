@@ -18,7 +18,7 @@ export const PopularPetitionItem = ({ petition }: PopularPetitionItemProps) => {
         <Heading size="sm" transition="all 0.2s" _groupHover={{ color: "primary.500" }}>
           {name}
         </Heading>
-        <CircularProgress value={progress} color="blue.500">
+        <CircularProgress value={progress} color="blue.500" size="50px" thickness="5px">
           <CircularProgressLabel>{progress}%</CircularProgressLabel>
         </CircularProgress>
       </HStack>
