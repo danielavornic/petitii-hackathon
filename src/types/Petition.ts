@@ -4,13 +4,14 @@ export interface Petition {
   id: number;
   initiator: User;
   name: string;
-  date: Date;
+  date: string;
   nrSign: number;
+  nrSignNeeded: number;
   content: string;
   toWho: string;
   statut: string;
   semnat: User[];
   feedback: string;
-  deadLine: Date;
+  deadLine: string;
   Category: string[];
 }
