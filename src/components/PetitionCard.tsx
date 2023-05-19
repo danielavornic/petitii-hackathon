@@ -34,18 +34,18 @@ export const PetitionCard = ({ petition }: PetitionCardProps) => {
       >
         <CardBody flexDir="row" display="flex" alignItems="center">
           <VStack spacing={6} alignItems="start" flex="2" mr={12}>
-            <HStack alignItems="baseline">
+            <HStack alignItems="baseline" fontFamily="serif">
               {/* <FaCalendar color="#0BC5EA" /> */}
-              <Text fontSize="lg">
+              <Text>
                 {dateSplit} | #{Category[0]}
               </Text>
             </HStack>
-            <Heading size="md" transition="all 0.2s" _groupHover={{ color: "primary.500" }}>
+            <Heading size="lg" transition="all 0.2s" _groupHover={{ color: "primary.500" }}>
               {name}
             </Heading>
             <HStack alignItems="baseline">
               {/* <FaUser color="#0BC5EA" /> */}
-              <Text fontFamily="serif" size="lg">
+              <Text fontFamily="serif">
                 Initiat de {initiator.name} {initiator.surname}
               </Text>
             </HStack>
