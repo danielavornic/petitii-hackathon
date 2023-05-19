@@ -26,7 +26,7 @@ export const Footer = () => {
       gap={2}
     >
       <GridItem rowSpan={2} colSpan={1} bg="transparent" justifySelf="end" alignSelf="center">
-        <Image src="https://gov.md/sites/default/files/banners/gov_logo_md.svg" boxSize="100px" />
+        <Image src="https://gov.md/sites/default/files/banners/gov_logo_md.svg" boxSize="90px" />
       </GridItem>
       <GridItem colSpan={1} bg="transparent" alignSelf="flex-end">
         <Stack alignItems="center">
