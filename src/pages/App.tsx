@@ -1,6 +1,7 @@
 import { Petition } from "types";
 
 import { Container, Heading, Stack, Text, Button } from "@chakra-ui/react";
+import { PetitionCard } from "components";
 
 const petition: Petition = {
   id: 1,
@@ -14,7 +15,8 @@ const petition: Petition = {
   },
   name: "Awarding the title of Hero of Ukraine (posthumously) to Mazurok soldier Vitaly Serhiyovych.",
   date: new Date(),
-  nrSign: 1000,
+  nrSign: 5600,
+  nrSignNeeded: 10000,
   content: "We urge the government to invest in renewable energy sources.",
   toWho: "Government officials",
   statut: "Open",
@@ -80,6 +82,7 @@ export const App = () => {
             </Button>
           </Stack>
         </Stack>
+        <PetitionCard petition={petition} />
       </Container>
       );
     </div>

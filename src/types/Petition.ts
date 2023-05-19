@@ -6,6 +6,7 @@ export interface Petition {
   name: string;
   date: Date;
   nrSign: number;
+  nrSignNeeded: number;
   content: string;
   toWho: string;
   statut: string;
