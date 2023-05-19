@@ -110,7 +110,14 @@ export const Header = () => {
           </Box>
         </Grid>
 
-        <Flex alignItems="center" w="full" paddingTop="0.5rem" paddingBottom="0.5rem" px={0}>
+        <Flex
+          alignItems="center"
+          w="full"
+          paddingTop="0.5rem"
+          justifyContent="space-between"
+          paddingBottom="0.5rem"
+          px={0}
+        >
           <Link to="/">
             <HStack role="group" spacing={4}>
               <img
@@ -128,18 +135,20 @@ export const Header = () => {
               </Box>
             </HStack>
           </Link>
-          <Button
-            width="auto"
-            gap={4}
-            marginX="auto"
-            rounded="full"
-            fontWeight="bold"
-            colorScheme="blue"
-            size="lg"
-          >
-            <Link to={user ? "/petitions/create" : "/mpass"}>Creaţi o petiţie</Link>
-            <FaPlus />
-          </Button>
+          <Link to={user ? "/petitions/create" : "/mpass"}>
+            <Button
+              width="auto"
+              gap={4}
+              marginX="auto"
+              rounded="full"
+              fontWeight="bold"
+              colorScheme="blue"
+              size="lg"
+            >
+              Creaţi o petiţie
+              <FaPlus />
+            </Button>
+          </Link>
           <Flex alignItems="center" paddingRight="0rem">
             <form
               onSubmit={(e) => {
