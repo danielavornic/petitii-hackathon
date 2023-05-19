@@ -1,8 +1,11 @@
-import { createRoot } from 'react-dom/client'
-import 'tailwindcss/tailwind.css'
-import App from 'components/App'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { RouterProvider } from "react-router-dom";
+import { router } from "router";
+import "antd/dist/reset.css";
 
-const container = document.getElementById('root') as HTMLDivElement
-const root = createRoot(container)
-
-root.render(<App />)
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+  <React.StrictMode>
+    <RouterProvider router={router} />
+  </React.StrictMode>,
+);
