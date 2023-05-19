@@ -1,13 +1,5 @@
 import React, { createContext, useState } from "react";
-
-interface User {
-  name: string;
-  surname: string;
-  id: string;
-  location: string;
-  isResident: boolean;
-  birthDate: Date;
-}
+import { User } from "types";
 
 interface UserContextInterface {
   user: User | null;
