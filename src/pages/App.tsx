@@ -3,9 +3,11 @@ import { HomeHero, PetitionsSection } from "components";
 
 export const App = () => {
   return (
-    <Container maxW="8xl">
+    <>
       <HomeHero />
-      <PetitionsSection />
-    </Container>
+      <Container maxW="8xl">
+        <PetitionsSection />
+      </Container>
+    </>
   );
 };

@@ -1,41 +1,31 @@
-import { Stack, Heading, Text, Button } from "@chakra-ui/react";
+import { Stack, Flex, Button, Text, VStack, useBreakpointValue, Heading } from "@chakra-ui/react";
 
 export const HomeHero = () => {
   return (
-    <Stack
-      textAlign={"center"}
-      align={"center"}
-      spacing={{ base: 8, md: 10 }}
-      py={{ base: 20, md: 28 }}
-    >
-      <Heading
-        fontWeight={600}
-        fontSize={{ base: "3xl", sm: "4xl", md: "6xl" }}
-        lineHeight={"110%"}
-      >
-        Meeting scheduling{" "}
-        <Text as={"span"} color={"primary.400"}>
-          made easy
-        </Text>
-      </Heading>
-      <Text color={"gray.500"} maxW={"3xl"}>
-        Never miss a meeting. Never be late for one too. Keep track of your meetings and receive
-        smart reminders in appropriate times. Read your smart “Daily Agenda” every morning.
-      </Text>
-      <Stack spacing={6} direction={"row"}>
-        <Button
-          rounded={"full"}
-          px={6}
-          colorScheme={"primary"}
-          bg={"primary.400"}
-          _hover={{ bg: "primary.500" }}
-        >
-          Get started
-        </Button>
-        <Button rounded={"full"} px={6}>
-          Learn more
-        </Button>
-      </Stack>
-    </Stack>
+    <Flex w={"full"} h="300px" bg="primary.600">
+      <VStack w={"full"} justify={"center"} px={useBreakpointValue({ base: 4, md: 8 })}>
+        <Stack w="full" maxW={"8xl"} align={"flex-start"} justifyContent="start" spacing={6}>
+          <Text color={"white"} fontSize="xl">
+            Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor
+          </Text>
+          <Heading color={"white"} fontSize="6xl">
+            Lorem ipsum dolor sit amet <br /> <span className="font-serif">adipiscing elit</span>
+          </Heading>
+          {/* <Stack direction={"row"}>
+            <Button bg={"blue.400"} rounded={"full"} color={"white"} _hover={{ bg: "blue.500" }}>
+              Show me more
+            </Button>
+            <Button
+              bg={"whiteAlpha.300"}
+              rounded={"full"}
+              color={"white"}
+              _hover={{ bg: "whiteAlpha.500" }}
+            >
+              Show me more
+            </Button>
+          </Stack> */}
+        </Stack>
+      </VStack>
+    </Flex>
   );
 };
