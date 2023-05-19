@@ -9,12 +9,14 @@ interface PetitionCardProps {
 }
 
 export const PetitionCard = ({ petition }: PetitionCardProps) => {
-  const { id, initiator, name, date, nrSign, nrSignNeeded, deadLine, Category } = petition;
+  const { id, initiator, name, date, nrSign, nrsignneeded, deadLine, category } = petition;
 
   const deadlineTime = new Date(deadLine);
 
   const daysLeft = Math.floor((deadlineTime.getTime() - new Date().getTime()) / (1000 * 3600 * 24));
-  const progress = Math.floor((nrSign / nrSignNeeded) * 100);
+  const progress = Math.floor((nrSign / nrsignneeded) * 100);
+
+  console.log(progress);
 
   const dateSplit = date.split("T")[0];
 
@@ -37,7 +39,7 @@ export const PetitionCard = ({ petition }: PetitionCardProps) => {
             <HStack alignItems="baseline" fontFamily="serif">
               {/* <FaCalendar color="#0BC5EA" /> */}
               <Text>
-                {dateSplit} | #{Category[0]}
+                {dateSplit} | #{category}
               </Text>
             </HStack>
             <Heading size="lg" transition="all 0.2s" _groupHover={{ color: "primary.500" }}>
@@ -45,9 +47,7 @@ export const PetitionCard = ({ petition }: PetitionCardProps) => {
             </Heading>
             <HStack alignItems="baseline">
               {/* <FaUser color="#0BC5EA" /> */}
-              <Text fontFamily="serif">
-                Initiat de {initiator.name} {initiator.surname}
-              </Text>
+              <Text fontFamily="serif">Initiat de {initiator}</Text>
             </HStack>
           </VStack>
 

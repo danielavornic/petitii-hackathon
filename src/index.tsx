@@ -5,11 +5,12 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ChakraProvider, baseTheme, extendTheme } from "@chakra-ui/react";
 
 import { UserProvider } from "context";
-import { App, CreatePetition, Mpass, Msign, Petition } from "pages";
+import { App, CreatePetition, Developers, Mpass, Msign, Petition } from "pages";
 
 import "@fontsource/libre-baskerville";
 import "@fontsource/inter";
 import "./styles/index.css";
+import { ScrollToTop } from "components";
 
 const theme = extendTheme({
   fonts: {
@@ -33,13 +34,16 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
       <QueryClientProvider client={queryClient}>
         <UserProvider>
           <BrowserRouter basename={import.meta.env.BASE_URL}>
-            <Routes>
-              <Route path="/" element={<App />} />
-              <Route path="/petitions/:petitionId" element={<Petition />} />
-              <Route path="/petitions/create" element={<CreatePetition />} />
-              <Route path="/msign" element={<Msign />} />
-              <Route path="/mpass" element={<Mpass />} />
-            </Routes>
+            <ScrollToTop>
+              <Routes>
+                <Route path="/" element={<App />} />
+                <Route path="/petitions/:petitionId" element={<Petition />} />
+                <Route path="/petitions/create" element={<CreatePetition />} />
+                <Route path="/msign" element={<Msign />} />
+                <Route path="/mpass" element={<Mpass />} />
+                <Route path="/developers" element={<Developers />} />
+              </Routes>
+            </ScrollToTop>
           </BrowserRouter>
         </UserProvider>
       </QueryClientProvider>

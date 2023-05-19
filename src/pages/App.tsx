@@ -1,15 +1,13 @@
 import { Container } from "@chakra-ui/react";
-import { Header, HomeHero, PetitionsSection, Footer } from "components";
+import { HomeHero, PetitionsSection, Layout } from "components";
 
 export const App = () => {
   return (
-    <>
-      <Header />
+    <Layout>
       <HomeHero />
       <Container maxW="8xl">
         <PetitionsSection />
       </Container>
-      <Footer />
-    </>
+    </Layout>
   );
 };

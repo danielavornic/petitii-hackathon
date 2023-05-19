@@ -12,16 +12,19 @@ import {
   useBreakpointValue,
   Image,
 } from "@chakra-ui/react";
-
-import { Footer, Header, PetitionForm } from "components";
-import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import { petitions } from "api";
+
+import { Layout, PetitionForm } from "components";
+import { useUser } from "hooks";
+import { useState } from "react";
 import { PetitionFormData } from "types";
 
 const initalState: PetitionFormData = {
-  title: "",
+  name: "",
   content: "",
-  Category: [],
+  category: "",
   toWho: "",
   region: "",
   checkedData: false,
@@ -30,15 +33,17 @@ const initalState: PetitionFormData = {
 
 const CreatePetitionForm = ({
   setIsSubmitted,
+  formData,
+  setFormData,
 }: {
   setIsSubmitted: React.Dispatch<React.SetStateAction<boolean>>;
+  formData: PetitionFormData;
+  setFormData: React.Dispatch<React.SetStateAction<PetitionFormData>>;
 }) => {
-  const [formData, setFormData] = useState(initalState);
   const [errors, setErrors] = useState(initalState);
 
   return (
-    <>
-      <Header />
+    <Layout>
       <Flex w={"full"} h="200px" bg="primary.600" color="white">
         <VStack w={"full"} justify={"center"} px={useBreakpointValue({ base: 4, md: 8 })}>
           <Stack w="full" maxW={"8xl"} align={"flex-start"} justifyContent="start" spacing={6}>
@@ -65,16 +70,31 @@ const CreatePetitionForm = ({
           setIsSubmitted={setIsSubmitted}
         />
       </Container>
-      <Footer />
-    </>
+    </Layout>
   );
 };
 
-const CreatePetitionSubmitted = () => {
+const CreatePetitionSubmitted = ({ formData }: { formData: PetitionFormData }) => {
   const navigate = useNavigate();
+  const { name, content, category, toWho, region } = formData;
+  const { user } = useUser();
+
+  const { mutate } = useMutation({
+    mutationFn: () =>
+      petitions.add({
+        name,
+        content,
+        category,
+        toWho,
+        region,
+        initiator: `${user?.name} ${user?.surname}`,
+      }),
+  });
 
   const handleSignClick = () => {
     // post petition
+    console.log(formData);
+    mutate();
     navigate("/petitions/1");
   };
 
@@ -105,10 +125,17 @@ const CreatePetitionSubmitted = () => {
 
 export const CreatePetition = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [formData, setFormData] = useState(initalState);
 
   if (!isSubmitted) {
-    return <CreatePetitionForm setIsSubmitted={setIsSubmitted} />;
+    return (
+      <CreatePetitionForm
+        setIsSubmitted={setIsSubmitted}
+        formData={formData}
+        setFormData={setFormData}
+      />
+    );
   }
 
-  return <CreatePetitionSubmitted />;
+  return <CreatePetitionSubmitted formData={formData} />;
 };

@@ -11,13 +11,16 @@ import {
   TabPanels,
   Tabs,
 } from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
+import { petitions } from "api";
+import { Loader } from "components/Loader";
 import { Pagination } from "components/Pagination";
 import { PetitionsList } from "components/PetitionsList";
 import { PopularPetitionsList } from "components/PopularPetitionsList";
 import { useSearchParams } from "react-router-dom";
 import { Petition } from "types";
 
-import { petitions } from "data/petitions.json";
+// import { petitions as petitionsData } from "data/petitions.json";
 
 const categories = [
   {
@@ -98,28 +101,45 @@ export const PetitionsSection = () => {
 
   const pages = 50;
 
-  const setPage = (page: number) => {
+  const { data, isLoading, isSuccess } = useQuery({
+    queryKey: [
+      "petitions",
+      {
+        category,
+        sortBy,
+        page,
+      },
+    ],
+    queryFn: petitions.getList,
+  });
+
+  // const { data: popularPetitions, isLoading: arePopularPetitionsLoading, isSuccess: isPopularSuccess } = useQuery({
+  //   queryKey: [
+  //     "petitions-popular"
+  //   ],
+  //   queryFn: petitions.getPopular,
+  // });
+
+  const updateSearchParams = (key: string, value: string | number) => {
     const params = new URLSearchParams(searchParams.toString());
-    params.set("page", page.toString());
+    params.set(key, value.toString());
     setSearchParams(params.toString());
+  };
+
+  const setPage = (page: number) => {
+    updateSearchParams("page", page);
   };
 
   const setCategory = (category: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("category", category);
-    setSearchParams(params.toString());
+    updateSearchParams("category", category);
   };
 
   const setSortBy = (sortBy: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("sortBy", sortBy);
-    setSearchParams(params.toString());
+    updateSearchParams("sortBy", sortBy);
   };
 
   const setStatus = (status: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("status", status);
-    setSearchParams(params.toString());
+    updateSearchParams("status", status);
   };
 
   return (
@@ -181,16 +201,20 @@ export const PetitionsSection = () => {
           </TabList>
         </Tabs>
 
-        <PetitionsList petitions={petitions as unknown as Petition[]} />
+        {/* {arePetitionsLoading && <Loader />} */}
+
+        {isSuccess && data?.length && <PetitionsList petitions={data as unknown as Petition[]} />}
 
         <Pagination page={parseInt(page)} setPage={setPage} totalPages={pages} />
       </VStack>
 
       <VStack spacing={6} flex="1" pl={7}>
         <Heading size="xl" mb={7}>
-          Populare
+          Trending
         </Heading>
-        <PopularPetitionsList petitions={petitions as unknown as Petition[]} />
+        {isSuccess && data?.length && (
+          <PopularPetitionsList petitions={data as unknown as Petition[]} />
+        )}
       </VStack>
     </HStack>
   );

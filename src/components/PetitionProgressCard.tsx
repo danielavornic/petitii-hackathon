@@ -6,9 +6,7 @@ import {
   Heading,
   VStack,
   Text,
-  HStack,
   Button,
-  CardHeader,
 } from "@chakra-ui/react";
 import { UserContext } from "context";
 import { useContext } from "react";
@@ -21,7 +19,7 @@ interface PetitionProgressCardProps {
 
 export const PetitionProgressCard = ({ petition }: PetitionProgressCardProps) => {
   const { user } = useContext(UserContext);
-  const { statut, nrSign, nrSignNeeded, deadLine } = petition;
+  const { statut, nrSign, nrsignneeded, deadLine } = petition;
 
   let cardColor;
   switch (statut) {
@@ -42,7 +40,7 @@ export const PetitionProgressCard = ({ petition }: PetitionProgressCardProps) =>
       break;
   }
 
-  const percentage = (nrSign * 100) / nrSignNeeded;
+  const percentage = (nrSign * 100) / nrsignneeded;
   const deadlineTime = new Date(deadLine);
   const daysLeft = Math.floor((deadlineTime.getTime() - new Date().getTime()) / (1000 * 3600 * 24));
 
@@ -90,7 +88,7 @@ export const PetitionProgressCard = ({ petition }: PetitionProgressCardProps) =>
               <VStack>
                 <Heading size="lg">{petition.nrSign}</Heading>
                 <Text fontSize="sm" fontFamily="serif">
-                  din {petition.nrSignNeeded}
+                  din {petition.nrsignneeded}
                   <br />
                   necesare
                 </Text>
@@ -98,7 +96,7 @@ export const PetitionProgressCard = ({ petition }: PetitionProgressCardProps) =>
             </CircularProgressLabel>
           </CircularProgress>
           <VStack>
-            <Text fontSize="md" fontFamily="serif">
+            <Text fontSize="md" fontFamily="serif" fontWeight="bold">
               {petition.statut}
             </Text>
             <Text fontSize="sm" fontFamily="serif" mt={2}>

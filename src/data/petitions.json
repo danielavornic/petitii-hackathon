@@ -13,7 +13,7 @@
       "name": "Acordarea titlului de Erou al Ucrainei soldatului Mazurok Vitaly Serhiyovych.",
       "date": "2023-05-19T00:00:00.000Z",
       "nrSign": 5600,
-      "nrSignNeeded": 10000,
+      "nrsignneeded": 10000,
       "content": "Solicităm guvernului să investească în surse de energie regenerabilă.",
       "toWho": "Oficialilor guvernamentali",
       "statut": "Deschis",
@@ -37,7 +37,7 @@
       ],
       "feedback": "Vă mulțumim pentru susținere!",
       "deadLine": "2023-06-30T00:00:00.000Z",
-      "Category": ["Mediu", "Energie"]
+      "category": ["Mediu", "Energie"]
     },
     {
       "id": 2,
@@ -52,7 +52,7 @@
       "name": "Sprijin pentru dezvoltarea tinerilor în domeniul tehnologic.",
       "date": "2023-05-19T00:00:00.000Z",
       "nrSign": 2500,
-      "nrSignNeeded": 5000,
+      "nrsignneeded": 5000,
       "content": "Cerem guvernului să ofere susținere financiară și resurse pentru dezvoltarea tinerilor în domeniul tehnologic.",
       "toWho": "Ministerului Educației",
       "statut": "Deschis",
@@ -76,7 +76,7 @@
       ],
       "feedback": "Mulțumim pentru susținere! Vom continua să lucrăm pentru îndeplinirea acestui obiectiv.",
       "deadLine": "2023-07-31T00:00:00.000Z",
-      "Category": ["Educație", "Tehnologie"]
+      "category": ["Educație", "Tehnologie"]
     },
     {
       "id": 3,
@@ -91,7 +91,7 @@
       "name": "Construirea unei parcuri de distracții în oraș.",
       "date": "2023-05-19T00:00:00.000Z",
       "nrSign": 1200,
-      "nrSignNeeded": 3000,
+      "nrsignneeded": 3000,
       "content": "Solicităm autorităților locale construirea unui parc de distracții pentru a spori oferta de agrement în oraș.",
       "toWho": "Primăriei municipiului",
       "statut": "Deschis",
@@ -115,7 +115,7 @@
       ],
       "feedback": "Vă mulțumim pentru susținere! Vom continua să ne străduim pentru construirea parcului de distracții.",
       "deadLine": "2023-08-31T00:00:00.000Z",
-      "Category": ["Infrastructură", "Turism"]
+      "category": ["Infrastructură", "Turism"]
     },
     {
       "id": 4,
@@ -130,7 +130,7 @@
       "name": "Susținere pentru dezvoltarea comunităților rurale.",
       "date": "2023-05-19T00:00:00.000Z",
       "nrSign": 3500,
-      "nrSignNeeded": 7000,
+      "nrsignneeded": 7000,
       "content": "Cerem guvernului și autorităților locale să acorde mai multe resurse pentru dezvoltarea comunităților rurale.",
       "toWho": "Guvernului României",
       "statut": "Deschis",
@@ -154,7 +154,7 @@
       ],
       "feedback": "Mulțumim pentru susținere! Împreună putem contribui la dezvoltarea comunităților rurale.",
       "deadLine": "2023-09-30T00:00:00.000Z",
-      "Category": ["Dezvoltare regională", "Comunități rurale"]
+      "category": ["Dezvoltare regională", "Comunități rurale"]
     },
     {
       "id": 5,
@@ -169,7 +169,7 @@
       "name": "Combaterea abandonului școlar în rândul elevilor din mediul rural.",
       "date": "2023-05-19T00:00:00.000Z",
       "nrSign": 1800,
-      "nrSignNeeded": 4000,
+      "nrsignneeded": 4000,
       "content": "Solicităm implementarea unor programe și resurse pentru combaterea abandonului școlar în rândul elevilor din mediul rural.",
       "toWho": "Ministerului Educației",
       "statut": "Deschis",
@@ -193,7 +193,7 @@
       ],
       "feedback": "Vă mulțumim pentru susținere! Împreună putem lupta împotriva abandonului școlar în mediul rural.",
       "deadLine": "2023-10-31T00:00:00.000Z",
-      "Category": ["Educație", "Dezvoltare regională"]
+      "category": ["Educație", "Dezvoltare regională"]
     },
     {
       "id": 6,
@@ -208,7 +208,7 @@
       "name": "Promovarea transportului public și a mobilității durabile.",
       "date": "2023-05-19T00:00:00.000Z",
       "nrSign": 4200,
-      "nrSignNeeded": 8000,
+      "nrsignneeded": 8000,
       "content": "Cerem autorităților să investească în infrastructura de transport public și să promoveze mobilitatea durabilă.",
       "toWho": "Primăriilor municipale",
       "statut": "Deschis",
@@ -232,7 +232,7 @@
       ],
       "feedback": "Mulțumim pentru susținere! Împreună putem îmbunătăți transportul public și mobilitatea în orașe.",
       "deadLine": "2023-11-30T00:00:00.000Z",
-      "Category": ["Transport", "Mediu"]
+      "category": ["Transport", "Mediu"]
     },
     {
       "id": 7,
@@ -247,7 +247,7 @@
       "name": "Protecția animalelor și combaterea abuzului asupra acestora.",
       "date": "2023-05-19T00:00:00.000Z",
       "nrSign": 2900,
-      "nrSignNeeded": 6000,
+      "nrsignneeded": 6000,
       "content": "Solicităm autorităților adoptarea unor măsuri eficiente pentru protecția animalelor și combaterea abuzului asupra acestora.",
       "toWho": "Ministerului Mediului",
       "statut": "Deschis",
@@ -271,7 +271,7 @@
       ],
       "feedback": "Vă mulțumim pentru susținere! Împreună putem proteja animalele și a lupta împotriva abuzului asupra lor.",
       "deadLine": "2023-12-31T00:00:00.000Z",
-      "Category": ["Mediu", "Drepturile animalelor"]
+      "category": ["Mediu", "Drepturile animalelor"]
     }
   ]
 }

@@ -2,24 +2,24 @@ import { User } from "./User";
 
 export interface Petition {
   id: number;
-  initiator: User;
+  initiator: string;
   name: string;
   date: string;
   nrSign: number;
-  nrSignNeeded: number;
+  nrsignneeded: number;
   content: string;
   toWho: string;
   statut: string;
-  semnat: User[];
+  semnat?: string[];
   feedback: string;
   deadLine: string;
-  Category: string[];
+  category: string;
 }
 
 export interface PetitionFormData {
-  title: string;
+  name: string;
   content: string;
-  Category: string[];
+  category: string;
   region?: string;
   toWho: string;
   checkedData: boolean;

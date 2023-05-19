@@ -1,4 +1,4 @@
-export * from "./Header";
+export * from "./Layout/Header";
 export * from "./PetitionCard";
 export * from "./PopularPetitionItem";
 export * from "./PetitionsList";
@@ -6,5 +6,8 @@ export * from "./PopularPetitionsList";
 export * from "./Homepage";
 export * from "./Pagination";
 export * from "./PetitionForm";
-export * from "./Footer";
+export * from "./Layout/Footer";
 export * from "./PetitionProgressCard";
+export * from "./Layout";
+export * from "./Loader";
+export * from "./ScrollToTop";

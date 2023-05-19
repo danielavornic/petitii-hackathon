@@ -8,6 +8,7 @@ import {
   GridItem,
   Flex,
 } from "@chakra-ui/react";
+import { Link as RouterLink } from "react-router-dom";
 
 const getCurrentYear = () => {
   return new Date().getFullYear();
@@ -15,6 +16,7 @@ const getCurrentYear = () => {
 
 export const Footer = () => {
   const currentYear = getCurrentYear();
+
   return (
     <Grid
       borderTopWidth={1}
@@ -24,6 +26,8 @@ export const Footer = () => {
       templateRows="3fr 2fr"
       templateColumns="2fr 3fr 2fr"
       gap={2}
+      bottom={0}
+      w="full"
     >
       <GridItem rowSpan={2} colSpan={1} bg="transparent" justifySelf="end" alignSelf="center">
         <Image src="https://gov.md/sites/default/files/banners/gov_logo_md.svg" boxSize="90px" />
@@ -63,6 +67,9 @@ export const Footer = () => {
           <Link href={"https://gov.md/ro/content/contacte"} fontSize={"sm"}>
             Contacte
           </Link>
+          <RouterLink to="/developers" style={{ fontSize: 14 }}>
+            Developers
+          </RouterLink>
         </Flex>
       </GridItem>
       <GridItem rowSpan={2} colSpan={1} colStart={3} rowStart={1} bg="transparent" />

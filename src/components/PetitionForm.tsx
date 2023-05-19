@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import {
   Button,
   Checkbox,
@@ -11,6 +12,8 @@ import {
 } from "@chakra-ui/react";
 import Select from "react-select";
 import { PetitionFormData } from "types";
+
+const wash = require("washyourmouthoutwithsoap");
 
 const toWhoOptions = [
   { value: "guvern", label: "Guvern" },
@@ -84,54 +87,65 @@ export const PetitionForm = ({
   setErrors,
   setIsSubmitted,
 }: PetitionFormProps) => {
-  const { title, content, Category, region, toWho } = formData;
+  const { name, content, category, region, toWho } = formData;
 
   const isSubmitDisabled =
-    !title ||
+    !name ||
     !content ||
-    !Category.length ||
+    !category.length ||
     !toWho ||
     !formData.checkedData ||
     !formData.consentedData;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (isSubmitDisabled) {
+      return;
+    }
+
     setIsSubmitted(true);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-    if (e.target.name === "title" && e.target.value.length < 5) {
-      setErrors({ ...errors, title: "Titlul trebuie să aibă minim 5 caractere" });
+    if (e.target.name === "name" && e.target.value.length < 5) {
+      setErrors({ ...errors, name: "Titlul trebuie să aibă minim 5 caractere" });
     }
 
-    if (e.target.name === "title" && e.target.value.length >= 5) {
-      setErrors({ ...errors, title: "" });
+    if (e.target.name === "name" && e.target.value.length >= 5) {
+      setErrors({ ...errors, name: "" });
     }
+
+    const isProfane = wash.check("ro", e.target.value);
 
     if (e.target.name === "content" && e.target.value.length < 10) {
       setErrors({ ...errors, content: "Conținutul trebuie să aibă minim 10 caractere" });
+    } else if (isProfane) {
+      setErrors({ ...errors, content: "Conținutul petiției conține cuvinte obscene" });
+    } else {
+      setErrors({ ...errors, content: "" });
     }
   };
 
   return (
     <form onSubmit={handleSubmit} id="petitie-form">
       <VStack spacing={8} py={8} pb="200px">
-        <FormControl>
+        <FormControl isInvalid={!!errors.name}>
           <FormLabel>Titlu</FormLabel>
           <Input
             type="text"
             placeholder="Titlu"
-            name="title"
-            value={title}
+            name="name"
+            value={name}
             onChange={handleChange}
             required
           />
-          {errors.title && <FormErrorMessage color="red.500">{errors.title}</FormErrorMessage>}
+          {errors.name && <FormErrorMessage>{errors.name}</FormErrorMessage>}
         </FormControl>
 
-        <FormControl>
+        <FormControl isInvalid={!!errors.content}>
           <FormLabel>Conținut</FormLabel>
           <Textarea
             placeholder="Conținut"
@@ -141,6 +155,7 @@ export const PetitionForm = ({
             h="300px"
             maxLength={2000}
           />
+          <FormErrorMessage>{errors.content}</FormErrorMessage>
         </FormControl>
 
         <HStack justifyContent="space-between" w="full" spacing={8}>
@@ -148,8 +163,8 @@ export const PetitionForm = ({
             <FormLabel>Destinatar</FormLabel>
             <Select
               options={toWhoOptions}
-              value={toWhoOptions.find((option) => option.value === toWho)}
-              onChange={(option) => setFormData({ ...formData, toWho: option ? option.value : "" })}
+              value={toWhoOptions.find((option) => option.label === toWho)}
+              onChange={(option) => setFormData({ ...formData, toWho: option ? option.label : "" })}
             />
           </FormControl>
           <FormControl>
@@ -157,27 +172,26 @@ export const PetitionForm = ({
             <Select
               options={regionOptions}
               isDisabled={toWho !== "primar"}
-              value={regionOptions.find((option) => option.value === region)}
+              value={regionOptions.find((option) => option.label === region)}
               onChange={(option) =>
-                setFormData({ ...formData, region: option ? option.value : "" })
+                setFormData({ ...formData, region: option ? option.label : "" })
               }
             />
           </FormControl>
         </HStack>
         <FormControl>
-          <FormLabel>Categorii</FormLabel>
+          <FormLabel>Categorie</FormLabel>
           <Select
             options={categories}
-            isMulti
-            value={categories.filter((option) => Category.includes(option.value))}
-            onChange={(options) =>
-              setFormData({ ...formData, Category: options ? options.map((o) => o.value) : [] })
+            value={categories.filter((option) => category.includes(option.value))}
+            onChange={(option) =>
+              setFormData({ ...formData, category: option ? option.value : "" })
             }
           />
         </FormControl>
 
         <VStack w="full">
-          <FormControl>
+          <FormControl isInvalid={!formData.checkedData}>
             <Checkbox
               name="checkedData"
               checked={formData.checkedData}
@@ -186,7 +200,7 @@ export const PetitionForm = ({
               Am verificat datele introduse şi confirm corectitudinea lor, pe proprie răspundere*
             </Checkbox>
           </FormControl>
-          <FormControl>
+          <FormControl isInvalid={!formData.consentedData}>
             <Checkbox
               name="consentedData"
               checked={formData.consentedData}

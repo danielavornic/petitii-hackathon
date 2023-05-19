@@ -8,9 +8,9 @@ interface PopularPetitionItemProps {
 }
 
 export const PopularPetitionItem = ({ petition }: PopularPetitionItemProps) => {
-  const { id, name, nrSign, nrSignNeeded } = petition;
+  const { id, name, nrSign, nrsignneeded } = petition;
 
-  const progress = Math.floor((nrSign / nrSignNeeded) * 100);
+  const progress = Math.floor((nrSign / nrsignneeded) * 100);
 
   return (
     <Link to={`/petitions/${id}`}>
