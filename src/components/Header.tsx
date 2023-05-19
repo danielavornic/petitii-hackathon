@@ -135,20 +135,7 @@ export const Header = () => {
               </Box>
             </HStack>
           </Link>
-          <Link to={user ? "/petitions/create" : "/mpass"}>
-            <Button
-              width="auto"
-              gap={4}
-              marginX="auto"
-              rounded="full"
-              fontWeight="bold"
-              colorScheme="blue"
-              size="lg"
-            >
-              Creaţi o petiţie
-              <FaPlus />
-            </Button>
-          </Link>
+
           <Flex alignItems="center" paddingRight="0rem">
             <form
               onSubmit={(e) => {
@@ -174,6 +161,20 @@ export const Header = () => {
               </InputGroup>
             </form>
           </Flex>
+          <Link to={user ? "/petitions/create" : "/mpass"}>
+            <Button
+              width="auto"
+              gap={4}
+              marginX="auto"
+              rounded="full"
+              fontWeight="bold"
+              colorScheme="blue"
+              size="lg"
+            >
+              Creaţi o petiţie
+              <FaPlus />
+            </Button>
+          </Link>
         </Flex>
       </Container>
     </Box>
