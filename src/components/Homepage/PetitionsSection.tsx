@@ -63,9 +63,23 @@ export const PetitionsSection = () => {
 
   const pages = 50;
 
-  const setPage = (page: number) => setSearchParams({ ...searchParams, page: page.toString() });
-  const setCategory = (category: string) => setSearchParams({ ...searchParams, category });
-  const setSortBy = (sortBy: string) => setSearchParams({ ...searchParams, sortBy });
+  const setPage = (page: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", page.toString());
+    setSearchParams(params.toString());
+  };
+
+  const setCategory = (category: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("category", category);
+    setSearchParams(params.toString());
+  };
+
+  const setSortBy = (sortBy: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("sortBy", sortBy);
+    setSearchParams(params.toString());
+  };
 
   return (
     <HStack
@@ -74,6 +88,7 @@ export const PetitionsSection = () => {
       h="max-content"
       justifyContent="space-between"
       alignItems="stretch"
+      py={20}
     >
       <VStack spacing={6} flex="2" borderRight="1px" borderColor="gray.200" pr={10}>
         <Heading size="xl" mb={8}>
