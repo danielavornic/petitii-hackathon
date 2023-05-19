@@ -5,8 +5,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ChakraProvider, baseTheme, extendTheme } from "@chakra-ui/react";
 
 import { UserProvider } from "context";
-import { App, Petition } from "pages";
+import { App, CreatePetition, Petition } from "pages";
 
+import "@fontsource/libre-baskerville";
+import "@fontsource/inter";
 import "./styles/index.css";
 
 const theme = extendTheme({
@@ -33,7 +35,8 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<App />} />
-              <Route path="petition/:petitionId" element={<Petition />} />
+              <Route path="petitions/:petitionId" element={<Petition />} />
+              <Route path="petitions/create" element={<CreatePetition />} />
             </Routes>
           </BrowserRouter>
         </UserProvider>
