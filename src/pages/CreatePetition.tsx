@@ -13,7 +13,7 @@ import {
   Image,
 } from "@chakra-ui/react";
 
-import { Header, PetitionForm } from "components";
+import { Footer, Header, PetitionForm } from "components";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PetitionFormData } from "types";
@@ -65,6 +65,7 @@ const CreatePetitionForm = ({
           setIsSubmitted={setIsSubmitted}
         />
       </Container>
+      <Footer />
     </>
   );
 };
