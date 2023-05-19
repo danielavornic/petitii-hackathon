@@ -1,4 +1,16 @@
-import { HStack, VStack, Heading, Select, Button, Divider } from "@chakra-ui/react";
+import {
+  HStack,
+  VStack,
+  Heading,
+  Select,
+  Button,
+  Divider,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+} from "@chakra-ui/react";
 import { Pagination } from "components/Pagination";
 import { PetitionsList } from "components/PetitionsList";
 import { PopularPetitionsList } from "components/PopularPetitionsList";
@@ -54,6 +66,29 @@ const categories = [
   },
 ];
 
+const statuses = [
+  {
+    label: "În colectare",
+    value: "in_signing",
+    color: "blue",
+  },
+  {
+    label: "În considerare",
+    value: "in_approval",
+    color: "yellow.400",
+  },
+  {
+    label: "În implementare",
+    value: "in_implementation",
+    color: "yellow",
+  },
+  {
+    label: "Finalizate",
+    value: "finished",
+    color: "green",
+  },
+];
+
 export const PetitionsSection = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -81,6 +116,12 @@ export const PetitionsSection = () => {
     setSearchParams(params.toString());
   };
 
+  const setStatus = (status: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("status", status);
+    setSearchParams(params.toString());
+  };
+
   return (
     <HStack
       as="section"
@@ -92,7 +133,7 @@ export const PetitionsSection = () => {
     >
       <VStack spacing={6} flex="2" borderRight="1px" borderColor="gray.200" pr={10}>
         <Heading size="xl" mb={8}>
-          Petitii in decurs de semnare
+          Petiții
         </Heading>
 
         <HStack w="full" justifyContent="space-between" alignItems="center">
@@ -130,7 +171,15 @@ export const PetitionsSection = () => {
           </HStack>
         </HStack>
 
-        <Pagination page={parseInt(page)} setPage={setPage} totalPages={pages} />
+        <Tabs w="full">
+          <TabList>
+            {statuses.map((status) => (
+              <Tab key={status.value} onClick={() => setStatus(status.value)}>
+                {status.label}
+              </Tab>
+            ))}
+          </TabList>
+        </Tabs>
 
         <PetitionsList petitions={petitions as unknown as Petition[]} />
 
@@ -139,7 +188,7 @@ export const PetitionsSection = () => {
 
       <VStack spacing={6} flex="1" pl={7}>
         <Heading size="xl" mb={7}>
-          Petitii populare
+          Populare
         </Heading>
         <PopularPetitionsList petitions={petitions as unknown as Petition[]} />
       </VStack>
