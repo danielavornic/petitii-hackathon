@@ -13,6 +13,7 @@ import { Layout } from "components";
 
 import SwaggerUI from "swagger-ui-react";
 import "swagger-ui-react/swagger-ui.css";
+import oapiSpec from "public/api.json";
 
 export const Developers = () => {
   return (
@@ -36,7 +37,7 @@ export const Developers = () => {
       </Flex>
 
       <div className="App">
-        <SwaggerUI url="https://petstore3.swagger.io/api/v3/openapi.json" />
+        <SwaggerUI spec={oapiSpec}/>
       </div>
     </Layout>
   );
