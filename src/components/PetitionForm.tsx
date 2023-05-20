@@ -191,7 +191,7 @@ export const PetitionForm = ({
         </FormControl>
 
         <VStack w="full">
-          <FormControl isInvalid={!formData.checkedData}>
+          <FormControl>
             <Checkbox
               name="checkedData"
               checked={formData.checkedData}
@@ -200,7 +200,7 @@ export const PetitionForm = ({
               Am verificat datele introduse şi confirm corectitudinea lor, pe proprie răspundere*
             </Checkbox>
           </FormControl>
-          <FormControl isInvalid={!formData.consentedData}>
+          <FormControl>
             <Checkbox
               name="consentedData"
               checked={formData.consentedData}
