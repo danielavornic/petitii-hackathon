@@ -19,7 +19,7 @@ interface PetitionProgressCardProps {
 
 export const PetitionProgressCard = ({ petition }: PetitionProgressCardProps) => {
   const { user } = useContext(UserContext);
-  const { statut, nrSign, nrsignneeded, deadLine } = petition;
+  const { id, statut, nrSign, nrsignneeded, deadLine, initiator, semnat } = petition;
 
   let cardColor;
   switch (statut) {
@@ -45,29 +45,41 @@ export const PetitionProgressCard = ({ petition }: PetitionProgressCardProps) =>
   const daysLeft = Math.floor((deadlineTime.getTime() - new Date().getTime()) / (1000 * 3600 * 24));
 
   let signButton;
+
+  const commonButtonProps = {
+    width: "200px",
+    marginLeft: "auto",
+    marginRight: "auto",
+    rounded: "full",
+    colorScheme: "blue",
+  };
+
   if (user === null) {
     signButton = (
-      <Button
-        width="200px"
-        marginLeft="auto"
-        marginRight="auto"
-        rounded="full"
-        colorScheme="red"
-        variant="link"
-        fontWeight={500}
-      >
+      <Button {...commonButtonProps} colorScheme="red" variant="link" fontWeight={500}>
         <Link to="/mpass">
           Autorizați-vă pentru <br /> a semna petiția
         </Link>
       </Button>
     );
+  } else if (initiator !== `${user.name} ${user.surname}`) {
+    const signedByUser = semnat && semnat.split(",").includes(`${user.name} ${user.surname}`);
+
+    signButton = (
+      <Button {...commonButtonProps} isDisabled={!!signedByUser}>
+        <Link to={`/msign?petitionId=${id}`}>
+          {signedByUser ? "Ați semnat petiția" : "Semnați petiţia"}
+        </Link>
+      </Button>
+    );
   } else {
     signButton = (
-      <Button width="200px" marginLeft="auto" marginRight="auto" rounded="full" colorScheme="blue">
-        <Link to="/msign">Semnați petiţia</Link>
+      <Button {...commonButtonProps}>
+        <Link to={`/manage?petitionId=${id}`}>Administrați petiţia</Link>
       </Button>
     );
   }
+
   return (
     <Card
       direction={{ base: "column", sm: "row" }}
@@ -100,7 +112,7 @@ export const PetitionProgressCard = ({ petition }: PetitionProgressCardProps) =>
               {petition.statut}
             </Text>
             <Text fontSize="sm" fontFamily="serif" mt={2}>
-              {daysLeft} zile ramase
+              60 zile ramase
             </Text>
           </VStack>
           {signButton}

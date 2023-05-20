@@ -10,7 +10,7 @@ export interface Petition {
   content: string;
   toWho: string;
   statut: string;
-  semnat?: string[];
+  semnat?: string;
   feedback: string;
   deadLine: string;
   category: string;
