@@ -45,7 +45,7 @@ const CreatePetitionForm = ({
   return (
     <Layout>
       <Flex w={"full"} h="200px" bg="primary.600" color="white">
-        <VStack w={"full"} justify={"center"} px={useBreakpointValue({ base: 4, md: 8 })}>
+        <VStack w={"full"} justify={"center"} px={8}>
           <Stack w="full" maxW={"8xl"} align={"flex-start"} justifyContent="start" spacing={6}>
             <Breadcrumb spacing="8px" separator={<ChevronRightIcon />}>
               <BreadcrumbItem>
@@ -77,6 +77,7 @@ const CreatePetitionForm = ({
 const CreatePetitionSubmitted = ({ formData }: { formData: PetitionFormData }) => {
   const navigate = useNavigate();
   const { name, content, category, toWho, region } = formData;
+
   const { user } = useUser();
 
   const { mutate } = useMutation({
@@ -89,14 +90,12 @@ const CreatePetitionSubmitted = ({ formData }: { formData: PetitionFormData }) =
         region,
         initiator: `${user?.name} ${user?.surname}`,
       }),
+    onSuccess: (id) => {
+      navigate(`/petitions/${id}`);
+    },
   });
 
-  const handleSignClick = () => {
-    // post petition
-    console.log(formData);
-    mutate();
-    navigate("/petitions/1");
-  };
+  const handleSignClick = () => mutate();
 
   return (
     <Container

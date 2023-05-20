@@ -57,7 +57,7 @@ export const PetitionProgressCard = ({ petition }: PetitionProgressCardProps) =>
   if (user === null) {
     signButton = (
       <Button {...commonButtonProps} colorScheme="red" variant="link" fontWeight={500}>
-        <Link to="/mpass">
+        <Link to={`/mpass?petitionId=${id}`}>
           Autorizați-vă pentru <br /> a semna petiția
         </Link>
       </Button>

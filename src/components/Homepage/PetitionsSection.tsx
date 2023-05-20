@@ -7,13 +7,10 @@ import {
   Divider,
   Tab,
   TabList,
-  TabPanel,
-  TabPanels,
   Tabs,
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { petitions } from "api";
-import { Pagination } from "components/Pagination";
 import { PetitionsList } from "components/PetitionsList";
 import { PopularPetitionsList } from "components/PopularPetitionsList";
 import { useSearchParams } from "react-router-dom";
@@ -71,11 +68,17 @@ export const PetitionsSection = () => {
     ],
     queryFn: () => petitions.getList({ category, sortBy, page, search }),
     select: (data) => {
-      return search
-        ? data?.filter((petition: Petition) =>
+      const filteredByCategory =
+        category !== "all"
+          ? data?.filter((petition: Petition) => petition.category === category)
+          : data;
+      const filteredBySearch = search
+        ? filteredByCategory?.filter((petition: Petition) =>
             petition.name.toLowerCase().includes(search.toLowerCase()),
           )
-        : data;
+        : filteredByCategory;
+
+      return filteredBySearch.slice(0, 10);
     },
   });
 
@@ -162,11 +165,15 @@ export const PetitionsSection = () => {
           </TabList>
         </Tabs>
 
-        {/* {arePetitionsLoading && <Loader />} */}
-
-        {isSuccess && data?.length && <PetitionsList petitions={data as unknown as Petition[]} />}
-
-        <Pagination page={parseInt(page)} setPage={setPage} totalPages={pages} />
+        {isSuccess && (
+          <PetitionsList
+            isLoading={isLoading}
+            petitions={data as unknown as Petition[]}
+            page={parseInt(page)}
+            setPage={setPage}
+            totalPages={pages}
+          />
+        )}
       </VStack>
 
       <VStack spacing={6} flex="1" pl={7}>

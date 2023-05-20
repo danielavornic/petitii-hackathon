@@ -4,6 +4,7 @@ import {
   Checkbox,
   FormControl,
   FormErrorMessage,
+  FormHelperText,
   FormLabel,
   HStack,
   Input,
@@ -12,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import Select from "react-select";
 import { PetitionFormData } from "types";
+import { regions as regionOptions } from "data/regions.json";
 
 import wash from "washyourmouthoutwithsoap";
 
@@ -20,13 +22,6 @@ const toWhoOptions = [
   { value: "parlament", label: "Parlament" },
   { value: "presedinte", label: "Președinte" },
   { value: "primar", label: "Primar" },
-];
-
-const regionOptions = [
-  { value: "mun.chisinau", label: "Mun. Chisinau" },
-  { value: "r-n.cahul", label: "R-n. Cahul" },
-  { value: "r-n.ungheni", label: "R-n. Ungheni" },
-  { value: "r-n.balti", label: "R-n. Balti" },
 ];
 
 const categories = [
@@ -130,6 +125,8 @@ export const PetitionForm = ({
     }
   };
 
+  console.log(region);
+
   return (
     <form onSubmit={handleSubmit} id="petitie-form">
       <VStack spacing={8} py={8} pb="200px">
@@ -159,25 +156,44 @@ export const PetitionForm = ({
           <FormErrorMessage>{errors.content}</FormErrorMessage>
         </FormControl>
 
-        <HStack justifyContent="space-between" w="full" spacing={8}>
+        <HStack justifyContent="space-between" alignItems="start" w="full" spacing={8}>
           <FormControl>
             <FormLabel>Destinatar</FormLabel>
             <Select
               options={toWhoOptions}
               value={toWhoOptions.find((option) => option.label === toWho)}
-              onChange={(option) => setFormData({ ...formData, toWho: option ? option.label : "" })}
+              onChange={(option) =>
+                setFormData({ ...formData, toWho: option ? option.label : "", region: undefined })
+              }
             />
+            {errors.toWho && <FormErrorMessage>{errors.toWho}</FormErrorMessage>}
           </FormControl>
-          <FormControl>
+          <FormControl isInvalid={!!errors.region}>
             <FormLabel>Regiune</FormLabel>
             <Select
               options={regionOptions}
-              isDisabled={toWho !== "primar"}
-              value={regionOptions.find((option) => option.label === region)}
-              onChange={(option) =>
-                setFormData({ ...formData, region: option ? option.label : "" })
+              isDisabled={toWho !== "Primar"}
+              value={
+                toWho === "Primar" ? regionOptions.find((option) => option.label === region) : null
               }
+              onChange={(option) => {
+                setFormData({ ...formData, region: option ? option.label : "" });
+                setErrors({
+                  ...errors,
+                  region:
+                    option?.label !== "mun. Chişinău"
+                      ? "Localitatea nu corespunde domiciliului dvs."
+                      : "",
+                });
+              }}
             />
+            {region === "mun. Chişinău" && (
+              <FormHelperText>
+                Numărul minim de semnături pentru petiții adresate primarului mun. Chișinău este de
+                5351.
+              </FormHelperText>
+            )}
+            {errors.region && <FormErrorMessage>{errors.region}</FormErrorMessage>}
           </FormControl>
         </HStack>
         <FormControl>

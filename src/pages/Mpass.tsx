@@ -1,5 +1,5 @@
 import { Button, Container, Image } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { useUser } from "hooks";
 
@@ -15,10 +15,16 @@ const user = {
 export const Mpass = () => {
   const { setUser } = useUser();
   const navigate = useNavigate();
+  const [params] = useSearchParams();
+  const petitionId = params.get("petitionId");
 
   const handleClick = () => {
     setUser(user);
-    navigate("/");
+    if (petitionId !== null) {
+      navigate(`/petitions/${petitionId}`);
+    } else {
+      navigate("/");
+    }
   };
 
   return (

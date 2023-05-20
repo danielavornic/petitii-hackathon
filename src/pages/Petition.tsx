@@ -42,7 +42,7 @@ export const Petition = () => {
       ) : isSuccess ? (
         <>
           <Flex w={"full"} h="200px" bg="primary.600" color="white">
-            <VStack w={"full"} justify={"center"} px={useBreakpointValue({ base: 4, md: 8 })}>
+            <VStack w={"full"} justify={"center"} px={8}>
               <Stack w="full" maxW={"8xl"} align={"flex-start"} justifyContent="start" spacing={6}>
                 <Breadcrumb spacing="8px" separator={<ChevronRightIcon />}>
                   <BreadcrumbItem>

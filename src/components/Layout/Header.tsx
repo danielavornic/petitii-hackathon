@@ -75,7 +75,7 @@ export const Header = () => {
                 fontSize="sm"
                 fontWeight="light"
               >
-                RU
+                EN
               </Button>
               <Box width="1px" height="20px" backgroundColor="gray.200" marginX="0.5rem" />
               <Button

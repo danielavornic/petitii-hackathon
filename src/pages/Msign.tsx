@@ -26,7 +26,7 @@ export const Msign = () => {
         semnat: `${user.name} ${user.surname}`,
       }),
     onSuccess: () => {
-      navigate(`/petitions/${petitionId}?signed`);
+      navigate(`/petitions/${petitionId}`);
       queryClient.invalidateQueries(["petition", petitionId]);
     },
   });
