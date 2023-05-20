@@ -49,7 +49,7 @@ const CreatePetitionForm = ({
           <Stack w="full" maxW={"8xl"} align={"flex-start"} justifyContent="start" spacing={6}>
             <Breadcrumb spacing="8px" separator={<ChevronRightIcon />}>
               <BreadcrumbItem>
-                <BreadcrumbLink href="/">Acasa</BreadcrumbLink>
+                <BreadcrumbLink href={import.meta.env.BASE_URL}>Acasa</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbItem isCurrentPage>
                 <BreadcrumbLink href="#">Creați o petiție</BreadcrumbLink>
