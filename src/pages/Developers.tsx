@@ -8,6 +8,7 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   Heading,
+  Box,
 } from "@chakra-ui/react";
 import { Layout } from "components";
 
@@ -17,7 +18,7 @@ import oapiSpec from "public/api.json";
 
 export const Developers = () => {
   return (
-    <Layout withoutFooter>
+    <Layout>
       <Flex w={"full"} h="200px" bg="primary.600" color="white">
         <VStack w={"full"} justify={"center"} px={useBreakpointValue({ base: 4, md: 8 })}>
           <Stack w="full" maxW={"8xl"} align={"flex-start"} justifyContent="start" spacing={6}>
@@ -36,9 +37,9 @@ export const Developers = () => {
         </VStack>
       </Flex>
 
-      <div className="App">
-        <SwaggerUI spec={oapiSpec}/>
-      </div>
+      <Box w="full" pb={20}>
+        <SwaggerUI spec={oapiSpec} />
+      </Box>
     </Layout>
   );
 };
