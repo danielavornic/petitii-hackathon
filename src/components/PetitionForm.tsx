@@ -94,6 +94,7 @@ export const PetitionForm = ({
     !content ||
     !category.length ||
     !toWho ||
+    ((toWho === "primar" || toWho === "otherValueRequiringRegion") && !region) ||
     !formData.checkedData ||
     !formData.consentedData;
 
