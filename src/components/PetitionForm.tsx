@@ -13,7 +13,7 @@ import {
 import Select from "react-select";
 import { PetitionFormData } from "types";
 
-const wash = require("washyourmouthoutwithsoap");
+import wash from "washyourmouthoutwithsoap";
 
 const toWhoOptions = [
   { value: "guvern", label: "Guvern" },

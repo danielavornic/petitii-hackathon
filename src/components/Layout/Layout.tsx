@@ -2,12 +2,18 @@ import React from "react";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 
-export const Layout = ({ children }: { children: React.ReactNode }) => {
+export const Layout = ({
+  withoutFooter = false,
+  children,
+}: {
+  withoutFooter?: boolean;
+  children: React.ReactNode;
+}) => {
   return (
     <>
       <Header />
       {children}
-      <Footer />
+      {!withoutFooter && <Footer />}
     </>
   );
 };
