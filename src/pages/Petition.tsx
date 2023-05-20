@@ -137,7 +137,7 @@ export const Petition = () => {
             </VStack>
           </Flex>
           <Container maxW="8xl" px={0} pb="100px">
-            <HStack spacing={12} my={8} alignItems="start" position="relative">
+            <HStack spacing={24} my={8} alignItems="start" position="relative">
               <VStack w="full" align={"flex-start"} justifyContent="start">
                 <Heading as="h2" size="2xl" my={4}>
                   {petitie.name}
