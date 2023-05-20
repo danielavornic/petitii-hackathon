@@ -17,7 +17,7 @@ import {
 import { SearchIcon } from "@chakra-ui/icons";
 import { FaPlus } from "react-icons/fa";
 import { Link, useSearchParams } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useUser } from "hooks";
 
 export const Header = () => {
@@ -31,6 +31,10 @@ export const Header = () => {
     params.set("search", term);
     setSearchParams(params.toString());
   };
+
+  useEffect(() => {
+    setSearchTerm(searchParams.get("search") || "");
+  }, [searchParams]);
 
   return (
     <Box w="full" borderBottomWidth="1px">
