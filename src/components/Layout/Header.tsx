@@ -10,7 +10,6 @@ import {
   InputRightElement,
   InputGroup,
   Image,
-  Stack,
   HStack,
   Link as ChakraLink,
 } from "@chakra-ui/react";
@@ -21,7 +20,7 @@ import { useEffect, useState } from "react";
 import { useUser } from "hooks";
 
 export const Header = () => {
-  const { user } = useUser();
+  const { user, setUser } = useUser();
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchTerm, setSearchTerm] = useState(searchParams.get("search") || "");
@@ -90,21 +89,32 @@ export const Header = () => {
                 Ajutor
               </Button>
               <Box width="1px" height="20px" backgroundColor="gray.200" marginX="0.5rem" />
-              <Button size="sm" variant="link" color="black" fontSize="sm" fontWeight="light">
-                {user ? (
+              {user ? (
+                <HStack spacing={2}>
                   <Link to="/profile">
-                    <Text fontSize="sm" fontWeight="light">
+                    <Text fontSize="sm" fontWeight="light" _hover={{ textDecoration: "underline" }}>
                       {user.name} {user.surname}
                     </Text>
                   </Link>
-                ) : (
-                  <Link to="/mpass">
-                    <Text fontSize="sm" fontWeight="light">
-                      Autentificare
-                    </Text>
-                  </Link>
-                )}
-              </Button>
+                  <Box width="1px" height="20px" backgroundColor="gray.200" marginX="0.5rem" />
+                  <Button
+                    size="sm"
+                    variant="link"
+                    color="black"
+                    fontSize="sm"
+                    fontWeight="light"
+                    onClick={() => setUser(null)}
+                  >
+                    Ieșire
+                  </Button>
+                </HStack>
+              ) : (
+                <Link to="/mpass">
+                  <Text fontSize="sm" fontWeight="light">
+                    Autentificare
+                  </Text>
+                </Link>
+              )}
             </Flex>
           </Box>
         </Grid>
@@ -160,7 +170,7 @@ export const Header = () => {
               </InputGroup>
             </form>
           </Flex>
-          <Link to={user ? "/petitions/create" : "/mpass"}>
+          <Link to={user ? "/petitions/create" : "/mpass?createPetition"}>
             <Button
               width="auto"
               gap={4}
