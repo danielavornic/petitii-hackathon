@@ -125,8 +125,6 @@ export const PetitionForm = ({
     }
   };
 
-  console.log(region);
-
   return (
     <form onSubmit={handleSubmit} id="petitie-form">
       <VStack spacing={8} py={8} pb="200px">

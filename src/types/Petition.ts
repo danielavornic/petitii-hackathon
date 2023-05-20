@@ -25,3 +25,12 @@ export interface PetitionFormData {
   checkedData: boolean;
   consentedData: boolean;
 }
+
+export enum PetitionStatus {
+  ALL = "Toate",
+  PENDING = "În colectare",
+  REVIEW = "În considerare",
+  IN_PROGRESS = "În implementare",
+  APPROVED = "Aprobat",
+  REJECTED = "Refuzat",
+}

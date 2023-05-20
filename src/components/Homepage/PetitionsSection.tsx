@@ -14,32 +14,39 @@ import { petitions } from "api";
 import { PetitionsList } from "components/PetitionsList";
 import { PopularPetitionsList } from "components/PopularPetitionsList";
 import { useSearchParams } from "react-router-dom";
-import { Petition } from "types";
+import { Petition, PetitionStatus } from "types";
 
 import { petitions as popularPetitionsData } from "data/petitions.json";
+import { useEffect } from "react";
 
-const statuses = [
-  {
-    label: "În colectare",
-    value: "in_signing",
-    color: "blue",
-  },
-  {
-    label: "În considerare",
-    value: "in_approval",
-    color: "yellow.400",
-  },
-  {
-    label: "În implementare",
-    value: "in_implementation",
-    color: "yellow",
-  },
-  {
-    label: "Finalizate",
-    value: "finished",
-    color: "green",
-  },
-];
+// const statutes = [
+//   {
+//     label: "În colectare",
+//     value: "in_signing",
+//     color: "blue",
+//   },
+//   {
+//     label: "În considerare",
+//     value: "in_approval",
+//     color: "yellow.400",
+//   },
+//   {
+//     label: "În implementare",
+//     value: "in_implementation",
+//     color: "yellow",
+//   },
+//   {
+//     label: "Finalizate",
+//     value: "finished",
+//     color: "green",
+//   },
+// ];
+
+const statutes = Object.values(PetitionStatus).map((statut) => ({
+  label: statut,
+  value: statut,
+  color: "blue",
+}));
 
 export const PetitionsSection = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -48,6 +55,7 @@ export const PetitionsSection = () => {
   const sortBy = searchParams.get("sortBy") || "newest";
   const page = searchParams.get("page") || "1";
   const search = searchParams.get("search") || "";
+  const statut = searchParams.get("statut") || PetitionStatus.ALL;
 
   const pages = 10;
 
@@ -56,7 +64,7 @@ export const PetitionsSection = () => {
     queryFn: petitions.getCategories,
   });
 
-  const { data, isLoading, isSuccess } = useQuery({
+  const { data, isFetching, isLoading, isSuccess } = useQuery({
     queryKey: [
       "petitions",
       {
@@ -77,16 +85,22 @@ export const PetitionsSection = () => {
             petition.name.toLowerCase().includes(search.toLowerCase()),
           )
         : filteredByCategory;
+      const filteredBystatut =
+        statut !== PetitionStatus.ALL
+          ? filteredBySearch?.filter(
+              (petition: Petition) => petition.statut === statut.replace("+", " "),
+            )
+          : filteredBySearch;
       const sorted =
         sortBy === "newest"
-          ? filteredBySearch?.sort((a: any, b: any) => {
+          ? filteredBystatut?.sort((a: any, b: any) => {
               const dateA = new Date(a.date);
               const dateB = new Date(b.date);
               return dateB.getTime() - dateA.getTime();
             })
-          : filteredBySearch?.sort((a: any, b: any) => b.nrSign - a.nrSign);
+          : filteredBystatut?.sort((a: any, b: any) => b.nrSign - a.nrSign);
 
-      return sorted.slice(0, 10);
+      return sorted;
     },
   });
 
@@ -108,9 +122,11 @@ export const PetitionsSection = () => {
     updateSearchParams("sortBy", sortBy);
   };
 
-  const setStatus = (status: string) => {
-    updateSearchParams("status", status);
+  const setstatut = (statut: string) => {
+    updateSearchParams("statut", statut);
   };
+
+  console.log(isFetching);
 
   return (
     <HStack
@@ -159,15 +175,14 @@ export const PetitionsSection = () => {
             >
               Cele mai populare
             </Button>
-            <Divider orientation="vertical" />
           </HStack>
         </HStack>
 
         <Tabs w="full">
           <TabList>
-            {statuses.map((status) => (
-              <Tab key={status.value} onClick={() => setStatus(status.value)}>
-                {status.label}
+            {statutes.map((statut) => (
+              <Tab key={statut.value} onClick={() => setstatut(statut.value)}>
+                {statut.label}
               </Tab>
             ))}
           </TabList>
@@ -175,7 +190,7 @@ export const PetitionsSection = () => {
 
         {isSuccess && (
           <PetitionsList
-            isLoading={isLoading}
+            isLoading={isFetching || isLoading}
             petitions={data as unknown as Petition[]}
             page={parseInt(page)}
             setPage={setPage}

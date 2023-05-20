@@ -20,19 +20,20 @@ export const PetitionsList = ({
   totalPages,
   setPage,
 }: PetitionsListProps) => {
-  console.log(petitions);
   return (
-    <VStack spacing={4} alignItems="stretch" w="full">
+    <VStack spacing={4} alignItems="stretch" w="full" mb={8}>
       {isLoading ? (
-        <Flex w="full" justifyContent="center" pt={4}>
+        <Flex w="full" justifyContent="center" pt={8}>
           <Loader />
         </Flex>
       ) : petitions && petitions.length > 0 ? (
         <>
-          {petitions.map((petition) => (
+          {petitions.slice(0, 10).map((petition) => (
             <PetitionCard petition={petition} key={petition.id} />
           ))}
-          <Pagination page={page} totalPages={totalPages} setPage={setPage} />
+          {petitions.length > 10 && (
+            <Pagination page={page} totalPages={totalPages} setPage={setPage} />
+          )}
         </>
       ) : (
         <Box w="full" textAlign="center" color="gray.500" fontSize="lg" py={8}>

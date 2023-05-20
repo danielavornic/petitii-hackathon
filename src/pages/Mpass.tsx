@@ -1,11 +1,10 @@
 import { Button, Container, Image } from "@chakra-ui/react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-
 import { useUser } from "hooks";
 
 const user = {
   name: "Ion",
-  surname: "Creanga",
+  surname: "Creangă",
   id: "123456789",
   location: "Chisinau",
   isResident: true,
@@ -17,11 +16,15 @@ export const Mpass = () => {
   const navigate = useNavigate();
   const [params] = useSearchParams();
   const petitionId = params.get("petitionId");
+  const createPetition = params.get("createPetition");
 
   const handleClick = () => {
+    sessionStorage.setItem("user", JSON.stringify(user));
     setUser(user);
     if (petitionId !== null) {
       navigate(`/petitions/${petitionId}`);
+    } else if (createPetition !== null) {
+      navigate("/petitions/create");
     } else {
       navigate("/");
     }

@@ -11,7 +11,7 @@ import {
 import { UserContext } from "context";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { Petition } from "types";
+import { Petition, PetitionStatus } from "types";
 
 interface PetitionProgressCardProps {
   petition: Petition;
@@ -21,24 +21,14 @@ export const PetitionProgressCard = ({ petition }: PetitionProgressCardProps) =>
   const { user } = useContext(UserContext);
   const { id, statut, nrSign, nrsignneeded, deadLine, initiator, semnat } = petition;
 
-  let cardColor;
-  switch (statut) {
-    case "Approved":
-      cardColor = "green.400";
-      break;
-    case "Disapproved":
-      cardColor = "red.400";
-      break;
-    case "InProgress":
-      cardColor = "blue.400";
-      break;
-    case "Pending":
-      cardColor = "grey.400";
-      break;
-    default:
-      cardColor = "blue.400";
-      break;
-  }
+  const progressColor =
+    statut === PetitionStatus.APPROVED
+      ? "green.500"
+      : statut === PetitionStatus.REJECTED
+      ? "red.500"
+      : statut === PetitionStatus.REVIEW || statut === PetitionStatus.PENDING
+      ? "blue.500"
+      : "yellow.500";
 
   const percentage = (nrSign * 100) / nrsignneeded;
   const deadlineTime = new Date(deadLine);
@@ -95,7 +85,7 @@ export const PetitionProgressCard = ({ petition }: PetitionProgressCardProps) =>
       <CardBody flexDir="column" display="flex" alignItems="center">
         <VStack spacing="5">
           <Heading size="md">Semnături</Heading>
-          <CircularProgress value={percentage} size="200px" color={cardColor} thickness="5px">
+          <CircularProgress value={percentage} size="200px" color={progressColor} thickness="5px">
             <CircularProgressLabel>
               <VStack>
                 <Heading size="lg">{petition.nrSign}</Heading>
@@ -112,10 +102,10 @@ export const PetitionProgressCard = ({ petition }: PetitionProgressCardProps) =>
               {petition.statut}
             </Text>
             <Text fontSize="sm" fontFamily="serif" mt={2}>
-              60 zile ramase
+              {daysLeft < 1 ? "60" : daysLeft} zile rămase
             </Text>
           </VStack>
-          {signButton}
+          {statut === PetitionStatus.PENDING && <>{signButton}</>}
         </VStack>
       </CardBody>
     </Card>
