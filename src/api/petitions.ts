@@ -76,4 +76,15 @@ export const petitions = {
 
     return data;
   },
+
+  getVoters: async (id: string) => {
+    const { data } = await axios.get(`${apiUrl}/api/semnat/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        "Allow-Control-Allow-Origin": "*",
+      },
+    });
+
+    return data;
+  },
 };

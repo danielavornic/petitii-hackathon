@@ -1,46 +1,11 @@
-import {
-  HStack,
-  VStack,
-  Heading,
-  Select,
-  Button,
-  Divider,
-  Tab,
-  TabList,
-  Tabs,
-} from "@chakra-ui/react";
+import { HStack, VStack, Heading, Select, Button, Tab, TabList, Tabs } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
-import { petitions } from "api";
-import { PetitionsList } from "components/PetitionsList";
-import { PopularPetitionsList } from "components/PopularPetitionsList";
 import { useSearchParams } from "react-router-dom";
+
 import { Petition, PetitionStatus } from "types";
-
+import { petitions } from "api";
+import { PetitionsList, PopularPetitionsList } from "components";
 import { petitions as popularPetitionsData } from "data/petitions.json";
-import { useEffect } from "react";
-
-// const statutes = [
-//   {
-//     label: "În colectare",
-//     value: "in_signing",
-//     color: "blue",
-//   },
-//   {
-//     label: "În considerare",
-//     value: "in_approval",
-//     color: "yellow.400",
-//   },
-//   {
-//     label: "În implementare",
-//     value: "in_implementation",
-//     color: "yellow",
-//   },
-//   {
-//     label: "Finalizate",
-//     value: "finished",
-//     color: "green",
-//   },
-// ];
 
 const statutes = Object.values(PetitionStatus).map((statut) => ({
   label: statut,
@@ -125,8 +90,6 @@ export const PetitionsSection = () => {
   const setstatut = (statut: string) => {
     updateSearchParams("statut", statut);
   };
-
-  console.log(isFetching);
 
   return (
     <HStack

@@ -13,6 +13,7 @@ import {
   Tag,
   Box,
   IconButton,
+  Button,
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { petitions } from "api";
@@ -20,8 +21,16 @@ import { Layout, Loader, PetitionProgressCard } from "components";
 import { FaFacebook, FaTwitter, FaEnvelope, FaLink } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+import { useUser } from "hooks";
+import { msignImage } from "constants";
+
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
 export const Petition = () => {
   const params = useParams();
+  const { user } = useUser();
   const id = params.petitionId;
 
   const {
@@ -32,6 +41,75 @@ export const Petition = () => {
     queryKey: ["petition", id],
     queryFn: () => petitions.getById(id as string),
   });
+
+  const { data: voters } = useQuery({
+    queryKey: ["semnatari", id],
+    queryFn: () => petitions.getVoters(id as string),
+  });
+
+  const hasInitiatedPetition = petitie?.initiator === `${user?.name} ${user?.surname}`;
+
+  const generatePDF = async () => {
+    const documentDefinition = {
+      content: [
+        {
+          columns: [
+            { width: "*", text: "" },
+            {
+              width: "auto",
+              text: `${petitie.date?.split("T")[0]}, ${user?.location}`,
+              fontSize: 10,
+              alignment: "right",
+            },
+          ],
+          columnGap: 10,
+          marginTop: 10,
+        },
+        {
+          text: petitie?.name,
+          fontSize: 16,
+          bold: true,
+          marginTop: 20,
+          alignment: "center",
+        },
+        { text: petitie?.content, fontSize: 12, marginTop: 24 },
+        {
+          text: [{ text: "Inițiat de: ", bold: true }, petitie?.initiator],
+          fontSize: 12,
+          marginTop: 24,
+        },
+        {
+          text: [{ text: "Numărul de semnături: ", bold: true }, voters.length],
+          fontSize: 12,
+          marginTop: 8,
+        },
+        { text: "Lista semnatarilor:", fontSize: 12, marginTop: 6, bold: true },
+        {
+          ol: voters.map((voter: string) => ({ text: voter })),
+          fontSize: 10,
+          marginTop: 5,
+        },
+      ],
+      footer: {
+        columns: [
+          {
+            width: "*",
+            text: "",
+          },
+          {
+            image: msignImage,
+            width: 50,
+            alignment: "center",
+            margin: [0, 0, 20, 0],
+          },
+        ],
+      },
+    };
+
+    const pdfDocument = pdfMake.createPdf(documentDefinition);
+
+    pdfDocument.download(`Petitie-#${id}.pdf`);
+  };
 
   return (
     <Layout>
@@ -70,11 +148,13 @@ export const Petition = () => {
                 </Heading>
 
                 <Heading as="h3" size="sm" fontFamily="serif" pb={2} fontWeight={400}>
-                  Data depunerii: {petitie.date.split("T")[0]}
+                  Data depunerii: {petitie.date?.split("T")[0]}
                 </Heading>
-                <Heading as="h3" size="sm" fontFamily="serif" fontWeight={400}>
-                  Data limită: {petitie.deadLine.split("T")[0]}
-                </Heading>
+                {petitie.deadLine && (
+                  <Heading as="h3" size="sm" fontFamily="serif" fontWeight={400}>
+                    Data limită: {petitie.deadLine.split("T")[0]}
+                  </Heading>
+                )}
 
                 <Text fontSize="lg" pt={8} pb={2} whiteSpace="pre-line">
                   {petitie.content}
@@ -89,6 +169,11 @@ export const Petition = () => {
               </VStack>
               <Box w="280px" position="sticky" top={4}>
                 <PetitionProgressCard petition={petitie} />
+                {hasInitiatedPetition && (
+                  <Button w="full" colorScheme="red" mt={8} onClick={generatePDF}>
+                    Salvează ca PDF
+                  </Button>
+                )}
                 <VStack w="full" align={"flex-start"} justifyContent="start" spacing={4} pt={12}>
                   <Heading as="h3" size="sm" fontFamily="serif" fontWeight={400}>
                     Distribuie petiția
