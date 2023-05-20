@@ -45,7 +45,7 @@ export const PetitionsSection = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const category = searchParams.get("category") || "all";
-  const sortBy = searchParams.get("sortBy") || "popular";
+  const sortBy = searchParams.get("sortBy") || "newest";
   const page = searchParams.get("page") || "1";
   const search = searchParams.get("search") || "";
 
@@ -77,8 +77,16 @@ export const PetitionsSection = () => {
             petition.name.toLowerCase().includes(search.toLowerCase()),
           )
         : filteredByCategory;
+      const sorted =
+        sortBy === "newest"
+          ? filteredBySearch?.sort((a: any, b: any) => {
+              const dateA = new Date(a.date);
+              const dateB = new Date(b.date);
+              return dateB.getTime() - dateA.getTime();
+            })
+          : filteredBySearch?.sort((a: any, b: any) => b.nrSign - a.nrSign);
 
-      return filteredBySearch.slice(0, 10);
+      return sorted.slice(0, 10);
     },
   });
 
@@ -136,6 +144,14 @@ export const PetitionsSection = () => {
 
           <HStack h="40px" spacing={4}>
             <Button
+              variant={sortBy === "newest" ? "outline" : "ghost"}
+              colorScheme="blue"
+              onClick={() => setSortBy("newest")}
+              rounded="full"
+            >
+              Cele mai noi
+            </Button>
+            <Button
               variant={sortBy === "popular" ? "outline" : "ghost"}
               colorScheme="blue"
               onClick={() => setSortBy("popular")}
@@ -144,14 +160,6 @@ export const PetitionsSection = () => {
               Cele mai populare
             </Button>
             <Divider orientation="vertical" />
-            <Button
-              variant={sortBy === "newest" ? "outline" : "ghost"}
-              colorScheme="blue"
-              onClick={() => setSortBy("newest")}
-              rounded="full"
-            >
-              Cele mai noi
-            </Button>
           </HStack>
         </HStack>
 
