@@ -66,11 +66,14 @@ export const Petition = () => {
                 </Heading>
 
                 <Heading as="h3" size="sm" pt={4} pb={2} fontFamily="serif" fontWeight={400}>
-                  Initiator: {petitie.initiator}
+                  Inițiator: {petitie.initiator}
                 </Heading>
 
-                <Heading as="h3" size="sm" fontFamily="serif" fontWeight={400}>
+                <Heading as="h3" size="sm" fontFamily="serif" pb={2} fontWeight={400}>
                   Data depunerii: {petitie.date.split("T")[0]}
+                </Heading>
+                <Heading as="h3" size="sm" fontFamily="serif" fontWeight={400}>
+                  Data limită: {petitie.deadLine.split("T")[0]}
                 </Heading>
 
                 <Text fontSize="lg" pt={8} pb={2} whiteSpace="pre-line">
