@@ -12,6 +12,7 @@ import {
   Image,
   Stack,
   HStack,
+  Link as ChakraLink,
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import { FaPlus } from "react-icons/fa";
@@ -47,17 +48,19 @@ export const Header = () => {
             width="auto"
             padding="1.5"
           >
-            <Text fontSize="sm">
-              <a href="https://presedinte.md/">
-                <Stack direction="row">
-                  <Image
-                    src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Emblema_Guvernului_Republicii_Moldova.png"
-                    boxSize="20px"
-                  />
-                  <Text fontSize="sm">Site-ul oficial al Preşedinţiei RM</Text>
-                </Stack>
-              </a>
-            </Text>
+            <ChakraLink
+              href="https://presedinte.md/"
+              fontSize="sm"
+              display="flex"
+              alignItems="center"
+            >
+              <Image
+                src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Emblema_Guvernului_Republicii_Moldova.png"
+                boxSize="20px"
+                mr="0.5rem"
+              />
+              Site-ul oficial al Preşedinţiei RM
+            </ChakraLink>
             <Flex marginLeft="auto" alignItems="center" paddingRight="1rem">
               <Button
                 size="sm"
@@ -83,15 +86,7 @@ export const Header = () => {
                 Ajutor
               </Button>
               <Box width="1px" height="20px" backgroundColor="gray.200" marginX="0.5rem" />
-              <Button
-                size="sm"
-                as="a"
-                href="#"
-                variant="link"
-                color="black"
-                fontSize="sm"
-                fontWeight="light"
-              >
+              <Button size="sm" variant="link" color="black" fontSize="sm" fontWeight="light">
                 {user ? (
                   <Link to="/profile">
                     <Text fontSize="sm" fontWeight="light">
