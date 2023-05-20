@@ -10,7 +10,7 @@ export interface Petition {
   content: string;
   toWho: string;
   statut: string;
-  semnat?: string[];
+  semnat?: string;
   feedback: string;
   deadLine: string;
   category: string;
@@ -24,4 +24,13 @@ export interface PetitionFormData {
   toWho: string;
   checkedData: boolean;
   consentedData: boolean;
+}
+
+export enum PetitionStatus {
+  ALL = "Toate",
+  PENDING = "În colectare",
+  REVIEW = "În considerare",
+  IN_PROGRESS = "În implementare",
+  APPROVED = "Aprobat",
+  REJECTED = "Refuzat",
 }

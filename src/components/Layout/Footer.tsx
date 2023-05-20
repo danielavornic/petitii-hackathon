@@ -68,7 +68,7 @@ export const Footer = () => {
             Contacte
           </Link>
           <RouterLink to="/developers" style={{ fontSize: 14 }}>
-            Developers
+            <Text _hover={{ textDecoration: "underline" }}>Developers</Text>
           </RouterLink>
         </Flex>
       </GridItem>

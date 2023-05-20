@@ -1,7 +1,9 @@
 import { Button, Container, Image } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { useUser } from "hooks";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { petitions } from "api";
 
 const user = {
   name: "Ion",
@@ -13,11 +15,24 @@ const user = {
 };
 
 export const Msign = () => {
+  const queryClient = useQueryClient();
+  const [params] = useSearchParams();
+  const petitionId = params.get("petitionId");
   const navigate = useNavigate();
+  const { mutate } = useMutation({
+    mutationFn: () =>
+      petitions.sign({
+        id: petitionId,
+        semnat: `${user.name} ${user.surname}`,
+      }),
+    onSuccess: () => {
+      navigate(`/petitions/${petitionId}`);
+      queryClient.invalidateQueries(["petition", petitionId]);
+    },
+  });
 
   const handleClick = () => {
-    // post petition
-    navigate("/petitions/1");
+    mutate();
   };
 
   return (

@@ -1,124 +1,73 @@
-import {
-  HStack,
-  VStack,
-  Heading,
-  Select,
-  Button,
-  Divider,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-} from "@chakra-ui/react";
+import { HStack, VStack, Heading, Select, Button, Tab, TabList, Tabs } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
-import { petitions } from "api";
-import { Loader } from "components/Loader";
-import { Pagination } from "components/Pagination";
-import { PetitionsList } from "components/PetitionsList";
-import { PopularPetitionsList } from "components/PopularPetitionsList";
 import { useSearchParams } from "react-router-dom";
-import { Petition } from "types";
 
-// import { petitions as petitionsData } from "data/petitions.json";
+import { Petition, PetitionStatus } from "types";
+import { petitions } from "api";
+import { PetitionsList, PopularPetitionsList } from "components";
+import { petitions as popularPetitionsData } from "data/petitions.json";
 
-const categories = [
-  {
-    value: "all",
-    label: "Toate categoriile",
-  },
-  {
-    value: "educatie",
-    label: "Educatie",
-  },
-  {
-    value: "mediu",
-    label: "Mediu",
-  },
-  {
-    value: "infrastructura",
-    label: "Infrastructura",
-  },
-  {
-    value: "dezvoltare",
-    label: "Dezvoltare regionala",
-  },
-  {
-    value: "transport",
-    label: "Transport",
-  },
-  {
-    value: "energie",
-    label: "Energie",
-  },
-  {
-    value: "turism",
-    label: "Turism",
-  },
-  {
-    value: "drepturile_animalelor",
-    label: "Drepturile animalelor",
-  },
-  {
-    value: "tehnologie",
-    label: "Tehnologie",
-  },
-  {
-    value: "agricultura",
-    label: "Agricultura",
-  },
-];
-
-const statuses = [
-  {
-    label: "În colectare",
-    value: "in_signing",
-    color: "blue",
-  },
-  {
-    label: "În considerare",
-    value: "in_approval",
-    color: "yellow.400",
-  },
-  {
-    label: "În implementare",
-    value: "in_implementation",
-    color: "yellow",
-  },
-  {
-    label: "Finalizate",
-    value: "finished",
-    color: "green",
-  },
-];
+const statutes = Object.values(PetitionStatus).map((statut) => ({
+  label: statut,
+  value: statut,
+  color: "blue",
+}));
 
 export const PetitionsSection = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const category = searchParams.get("category") || "all";
-  const sortBy = searchParams.get("sortBy") || "popular";
+  const sortBy = searchParams.get("sortBy") || "newest";
   const page = searchParams.get("page") || "1";
+  const search = searchParams.get("search") || "";
+  const statut = searchParams.get("statut") || PetitionStatus.ALL;
 
-  const pages = 50;
+  const pages = 10;
 
-  const { data, isLoading, isSuccess } = useQuery({
+  const { data: categories, isSuccess: isCategoriesSuccess } = useQuery({
+    queryKey: ["categories"],
+    queryFn: petitions.getCategories,
+  });
+
+  const { data, isFetching, isLoading, isSuccess } = useQuery({
     queryKey: [
       "petitions",
       {
         category,
         sortBy,
         page,
+        search,
       },
     ],
-    queryFn: petitions.getList,
-  });
+    queryFn: () => petitions.getList({ category, sortBy, page, search }),
+    select: (data) => {
+      const filteredByCategory =
+        category !== "all"
+          ? data?.filter((petition: Petition) => petition.category === category)
+          : data;
+      const filteredBySearch = search
+        ? filteredByCategory?.filter((petition: Petition) =>
+            petition.name.toLowerCase().includes(search.toLowerCase()),
+          )
+        : filteredByCategory;
+      const filteredBystatut =
+        statut !== PetitionStatus.ALL
+          ? filteredBySearch?.filter(
+              (petition: Petition) => petition.statut === statut.replace("+", " "),
+            )
+          : filteredBySearch;
+      const sorted =
+        sortBy === "newest"
+          ? filteredBystatut?.sort((a: any, b: any) => {
+              const dateA = new Date(a.date);
+              const dateB = new Date(b.date);
+              return dateB.getTime() - dateA.getTime();
+            })
+          : filteredBystatut?.sort((a: any, b: any) => b.nrSign - a.nrSign);
 
-  // const { data: popularPetitions, isLoading: arePopularPetitionsLoading, isSuccess: isPopularSuccess } = useQuery({
-  //   queryKey: [
-  //     "petitions-popular"
-  //   ],
-  //   queryFn: petitions.getPopular,
-  // });
+      return sorted;
+    },
+  });
 
   const updateSearchParams = (key: string, value: string | number) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -138,8 +87,8 @@ export const PetitionsSection = () => {
     updateSearchParams("sortBy", sortBy);
   };
 
-  const setStatus = (status: string) => {
-    updateSearchParams("status", status);
+  const setstatut = (statut: string) => {
+    updateSearchParams("statut", statut);
   };
 
   return (
@@ -153,7 +102,7 @@ export const PetitionsSection = () => {
     >
       <VStack spacing={6} flex="2" borderRight="1px" borderColor="gray.200" pr={10}>
         <Heading size="xl" mb={8}>
-          Petiții
+          {search ? `Rezultatele căutării pentru "${search}"` : "Petiții"}
         </Heading>
 
         <HStack w="full" justifyContent="space-between" alignItems="center">
@@ -163,23 +112,16 @@ export const PetitionsSection = () => {
             defaultValue={category}
             onChange={(e) => setCategory(e.target.value)}
           >
-            {categories.map((category) => (
-              <option value={category.value} key={category.value}>
-                {category.label}
-              </option>
-            ))}
+            {isCategoriesSuccess &&
+              categories?.length &&
+              categories.map((category: any) => (
+                <option value={category.value} key={category.value}>
+                  {category.label}
+                </option>
+              ))}
           </Select>
 
           <HStack h="40px" spacing={4}>
-            <Button
-              variant={sortBy === "popular" ? "outline" : "ghost"}
-              colorScheme="blue"
-              onClick={() => setSortBy("popular")}
-              rounded="full"
-            >
-              Cele mai populare
-            </Button>
-            <Divider orientation="vertical" />
             <Button
               variant={sortBy === "newest" ? "outline" : "ghost"}
               colorScheme="blue"
@@ -188,33 +130,45 @@ export const PetitionsSection = () => {
             >
               Cele mai noi
             </Button>
+            <Button
+              variant={sortBy === "popular" ? "outline" : "ghost"}
+              colorScheme="blue"
+              onClick={() => setSortBy("popular")}
+              rounded="full"
+            >
+              Cele mai populare
+            </Button>
           </HStack>
         </HStack>
 
         <Tabs w="full">
           <TabList>
-            {statuses.map((status) => (
-              <Tab key={status.value} onClick={() => setStatus(status.value)}>
-                {status.label}
+            {statutes.map((statut) => (
+              <Tab key={statut.value} onClick={() => setstatut(statut.value)}>
+                {statut.label}
               </Tab>
             ))}
           </TabList>
         </Tabs>
 
-        {/* {arePetitionsLoading && <Loader />} */}
-
-        {isSuccess && data?.length && <PetitionsList petitions={data as unknown as Petition[]} />}
-
-        <Pagination page={parseInt(page)} setPage={setPage} totalPages={pages} />
+        {isSuccess && (
+          <PetitionsList
+            isLoading={isFetching || isLoading}
+            petitions={data as unknown as Petition[]}
+            page={parseInt(page)}
+            setPage={setPage}
+            totalPages={pages}
+          />
+        )}
       </VStack>
 
       <VStack spacing={6} flex="1" pl={7}>
         <Heading size="xl" mb={7}>
           Trending
         </Heading>
-        {isSuccess && data?.length && (
-          <PopularPetitionsList petitions={data as unknown as Petition[]} />
-        )}
+        <PopularPetitionsList
+          petitions={popularPetitionsData.slice(0, 5) as unknown as Petition[]}
+        />
       </VStack>
     </HStack>
   );
