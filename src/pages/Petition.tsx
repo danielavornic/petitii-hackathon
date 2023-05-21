@@ -144,15 +144,22 @@ export const Petition = () => {
                 </Heading>
 
                 <Heading as="h3" size="sm" pt={4} pb={2} fontFamily="serif" fontWeight={400}>
-                  Inițiator: {petitie.initiator}
+                  <span style={{ fontWeight: "bold" }}>Inițiator:</span> {petitie.initiator}
                 </Heading>
 
                 <Heading as="h3" size="sm" fontFamily="serif" pb={2} fontWeight={400}>
-                  Data depunerii: {petitie.date?.split("T")[0]}
+                  <span style={{ fontWeight: "bold" }}>Data depunerii:</span>{" "}
+                  {petitie.date?.split("T")[0]}
                 </Heading>
                 {petitie.deadLine && (
                   <Heading as="h3" size="sm" fontFamily="serif" fontWeight={400}>
-                    Data limită: {petitie.deadLine.split("T")[0]}
+                    <span style={{ fontWeight: "bold" }}>Data limită:</span>{" "}
+                    {petitie.deadLine.split("T")[0]}
+                  </Heading>
+                )}
+                {petitie?.locatie && (
+                  <Heading as="h3" size="sm" fontFamily="serif" pt={2} fontWeight={400}>
+                    <span style={{ fontWeight: "bold" }}>Locație:</span> {petitie.locatie}
                   </Heading>
                 )}
 
@@ -162,7 +169,7 @@ export const Petition = () => {
 
                 <HStack pt={4} pb={2}>
                   <Heading as="h3" size="sm" fontFamily="serif" fontWeight={400}>
-                    Categorie:{" "}
+                    <span style={{ fontWeight: "bold" }}>Categorie:</span>{" "}
                   </Heading>
                   <Tag>{petitie.category}</Tag>
                 </HStack>

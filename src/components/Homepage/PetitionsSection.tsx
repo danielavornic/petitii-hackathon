@@ -1,4 +1,14 @@
-import { HStack, VStack, Heading, Select, Button, Tab, TabList, Tabs } from "@chakra-ui/react";
+import {
+  HStack,
+  VStack,
+  Heading,
+  Select,
+  Button,
+  Tab,
+  TabList,
+  Tabs,
+  Checkbox,
+} from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 
@@ -6,6 +16,8 @@ import { Petition, PetitionStatus } from "types";
 import { petitions } from "api";
 import { PetitionsList, PopularPetitionsList } from "components";
 import { petitions as popularPetitionsData } from "data/petitions.json";
+import { useUser } from "hooks";
+import { stat } from "fs";
 
 const statutes = Object.values(PetitionStatus).map((statut) => ({
   label: statut,
@@ -14,6 +26,8 @@ const statutes = Object.values(PetitionStatus).map((statut) => ({
 }));
 
 export const PetitionsSection = () => {
+  const { user } = useUser();
+
   const [searchParams, setSearchParams] = useSearchParams();
 
   const category = searchParams.get("category") || "all";
@@ -21,6 +35,7 @@ export const PetitionsSection = () => {
   const page = searchParams.get("page") || "1";
   const search = searchParams.get("search") || "";
   const statut = searchParams.get("statut") || PetitionStatus.ALL;
+  const availableByLocation = searchParams.get("availableByLocation") || "false";
 
   const pages = 10;
 
@@ -41,10 +56,18 @@ export const PetitionsSection = () => {
     ],
     queryFn: () => petitions.getList({ category, sortBy, page, search }),
     select: (data) => {
+      const availableByLocationData =
+        availableByLocation === "true" && user?.locatie
+          ? data?.filter(
+              (petition: Petition) =>
+                petition?.locatie === user?.locatie || petition?.toWho !== "Primar",
+            )
+          : data;
+      console.log(data, availableByLocation);
       const filteredByCategory =
         category !== "all"
-          ? data?.filter((petition: Petition) => petition.category === category)
-          : data;
+          ? availableByLocationData?.filter((petition: Petition) => petition.category === category)
+          : availableByLocationData;
       const filteredBySearch = search
         ? filteredByCategory?.filter((petition: Petition) =>
             petition.name.toLowerCase().includes(search.toLowerCase()),
@@ -69,7 +92,7 @@ export const PetitionsSection = () => {
     },
   });
 
-  const updateSearchParams = (key: string, value: string | number) => {
+  const updateSearchParams = (key: string, value: string | number | boolean) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set(key, value.toString());
     setSearchParams(params.toString());
@@ -91,6 +114,10 @@ export const PetitionsSection = () => {
     updateSearchParams("statut", statut);
   };
 
+  const setAvailableByLocation = (availableByLocation: boolean) => {
+    updateSearchParams("availableByLocation", availableByLocation);
+  };
+
   return (
     <HStack
       as="section"
@@ -101,45 +128,52 @@ export const PetitionsSection = () => {
       py={20}
     >
       <VStack spacing={6} flex="2" borderRight="1px" borderColor="gray.200" pr={10}>
-        <Heading size="xl" mb={8}>
+        <Heading size="xl" mb={4} alignSelf="center">
           {search ? `Rezultatele căutării pentru "${search}"` : "Petiții"}
         </Heading>
-
-        <HStack w="full" justifyContent="space-between" alignItems="center">
-          <Select
-            w="xs"
-            rounded="full"
-            defaultValue={category}
-            onChange={(e) => setCategory(e.target.value)}
+        <VStack spacing={4} w="full" alignItems="start">
+          <Checkbox
+            isChecked={availableByLocation === "true"}
+            onChange={(e) => setAvailableByLocation(e.target.checked)}
           >
-            {isCategoriesSuccess &&
-              categories?.length &&
-              categories.map((category: any) => (
-                <option value={category.value} key={category.value}>
-                  {category.label}
-                </option>
-              ))}
-          </Select>
+            Doar petiții din regiunea mea
+          </Checkbox>
+          <HStack w="full" justifyContent="space-between" alignItems="center">
+            <Select
+              w="xs"
+              rounded="full"
+              defaultValue={category}
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              {isCategoriesSuccess &&
+                categories?.length &&
+                categories.map((category: any) => (
+                  <option value={category.value} key={category.value}>
+                    {category.label}
+                  </option>
+                ))}
+            </Select>
 
-          <HStack h="40px" spacing={4}>
-            <Button
-              variant={sortBy === "newest" ? "outline" : "ghost"}
-              colorScheme="blue"
-              onClick={() => setSortBy("newest")}
-              rounded="full"
-            >
-              Cele mai noi
-            </Button>
-            <Button
-              variant={sortBy === "popular" ? "outline" : "ghost"}
-              colorScheme="blue"
-              onClick={() => setSortBy("popular")}
-              rounded="full"
-            >
-              Cele mai populare
-            </Button>
+            <HStack h="40px" spacing={4}>
+              <Button
+                variant={sortBy === "newest" ? "outline" : "ghost"}
+                colorScheme="blue"
+                onClick={() => setSortBy("newest")}
+                rounded="full"
+              >
+                Cele mai noi
+              </Button>
+              <Button
+                variant={sortBy === "popular" ? "outline" : "ghost"}
+                colorScheme="blue"
+                onClick={() => setSortBy("popular")}
+                rounded="full"
+              >
+                Cele mai populare
+              </Button>
+            </HStack>
           </HStack>
-        </HStack>
+        </VStack>
 
         <Tabs w="full">
           <TabList>
@@ -163,7 +197,7 @@ export const PetitionsSection = () => {
       </VStack>
 
       <VStack spacing={6} flex="1" pl={7}>
-        <Heading size="xl" mb={7}>
+        <Heading size="xl" mb={4}>
           Trending
         </Heading>
         <PopularPetitionsList

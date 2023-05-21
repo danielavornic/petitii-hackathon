@@ -7,7 +7,7 @@ import { petitions } from "api";
 
 const user = {
   name: "Ion",
-  surname: "Creanga",
+  surname: "Creangă",
   id: "123456789",
   location: "Chisinau",
   isResident: true,

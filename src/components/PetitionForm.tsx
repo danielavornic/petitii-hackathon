@@ -82,14 +82,14 @@ export const PetitionForm = ({
   setErrors,
   setIsSubmitted,
 }: PetitionFormProps) => {
-  const { name, content, category, region, toWho } = formData;
+  const { name, content, category, locatie, toWho } = formData;
 
   const isSubmitDisabled =
     !name ||
     !content ||
     !category.length ||
     !toWho ||
-    ((toWho === "primar" || toWho === "otherValueRequiringRegion") && !region) ||
+    ((toWho === "primar" || toWho === "otherValueRequiringRegion") && !locatie) ||
     !formData.checkedData ||
     !formData.consentedData;
 
@@ -106,18 +106,18 @@ export const PetitionForm = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-    if (e.target.name === "name" && e.target.value.length < 5) {
-      setErrors({ ...errors, name: "Titlul trebuie să aibă minim 5 caractere" });
+    if (e.target.name === "name" && e.target.value.length < 10) {
+      setErrors({ ...errors, name: "Titlul trebuie să aibă minim 10 caractere" });
     }
 
-    if (e.target.name === "name" && e.target.value.length >= 5) {
+    if (e.target.name === "name" && e.target.value.length >= 10) {
       setErrors({ ...errors, name: "" });
     }
 
     const isProfane = wash.check("ro", e.target.value);
 
-    if (e.target.name === "content" && e.target.value.length < 10) {
-      setErrors({ ...errors, content: "Conținutul trebuie să aibă minim 10 caractere" });
+    if (e.target.name === "content" && e.target.value.length < 100) {
+      setErrors({ ...errors, content: "Conținutul trebuie să aibă minim 100 caractere" });
     } else if (isProfane) {
       setErrors({ ...errors, content: "Conținutul petiției conține cuvinte obscene" });
     } else {
@@ -161,37 +161,37 @@ export const PetitionForm = ({
               options={toWhoOptions}
               value={toWhoOptions.find((option) => option.label === toWho)}
               onChange={(option) =>
-                setFormData({ ...formData, toWho: option ? option.label : "", region: undefined })
+                setFormData({ ...formData, toWho: option ? option.label : "", locatie: undefined })
               }
             />
             {errors.toWho && <FormErrorMessage>{errors.toWho}</FormErrorMessage>}
           </FormControl>
-          <FormControl isInvalid={!!errors.region}>
+          <FormControl isInvalid={!!errors.locatie}>
             <FormLabel>Regiune</FormLabel>
             <Select
               options={regionOptions}
               isDisabled={toWho !== "Primar"}
               value={
-                toWho === "Primar" ? regionOptions.find((option) => option.label === region) : null
+                toWho === "Primar" ? regionOptions.find((option) => option.label === locatie) : null
               }
               onChange={(option) => {
-                setFormData({ ...formData, region: option ? option.label : "" });
+                setFormData({ ...formData, locatie: option ? option.label : "" });
                 setErrors({
                   ...errors,
-                  region:
+                  locatie:
                     option?.label !== "mun. Chişinău"
                       ? "Localitatea nu corespunde domiciliului dvs."
                       : "",
                 });
               }}
             />
-            {region === "mun. Chişinău" && (
+            {locatie === "mun. Chişinău" && (
               <FormHelperText>
                 Numărul minim de semnături pentru petiții adresate primarului mun. Chișinău este de
                 5351.
               </FormHelperText>
             )}
-            {errors.region && <FormErrorMessage>{errors.region}</FormErrorMessage>}
+            {errors.locatie && <FormErrorMessage>{errors.locatie}</FormErrorMessage>}
           </FormControl>
         </HStack>
         <FormControl>

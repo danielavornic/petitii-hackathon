@@ -19,7 +19,7 @@ interface PetitionProgressCardProps {
 
 export const PetitionProgressCard = ({ petition }: PetitionProgressCardProps) => {
   const { user } = useContext(UserContext);
-  const { id, statut, nrSign, nrsignneeded, deadLine, initiator, semnat } = petition;
+  const { id, statut, nrSign, nrsignneeded, deadLine, initiator, semnat, locatie } = petition;
 
   const progressColor =
     statut === PetitionStatus.APPROVED
@@ -52,13 +52,32 @@ export const PetitionProgressCard = ({ petition }: PetitionProgressCardProps) =>
         </Link>
       </Button>
     );
-  } else if (initiator !== `${user.name} ${user.surname}`) {
+  } else if (initiator !== `${user?.name} ${user?.surname}`) {
     const signedByUser = semnat && semnat.split(",").includes(`${user.name} ${user.surname}`);
+    const isAllowedFromRegion =
+      (!!petition?.locatie && user.location === petition?.locatie) || petition.toWho !== "Primar";
+
+    const nowAllowedButtonProps = {
+      ...commonButtonProps,
+      variant: "link",
+      fontWeight: 500,
+      colorScheme: "red",
+      whiteSpace: "pre-line",
+      pointerEvents: "none",
+    };
 
     signButton = (
-      <Button {...commonButtonProps} isDisabled={!!signedByUser}>
+      <Button
+        {...commonButtonProps}
+        isDisabled={!!signedByUser}
+        {...(!isAllowedFromRegion && nowAllowedButtonProps)}
+      >
         <Link to={`/msign?petitionId=${id}`}>
-          {signedByUser ? "Ați semnat petiția" : "Semnați petiţia"}
+          {signedByUser
+            ? "Ați semnat petiția"
+            : isAllowedFromRegion
+            ? "Semnați petiția"
+            : "Petiție indisponibilă \nîn regiunea dvs."}
         </Link>
       </Button>
     );
@@ -105,7 +124,7 @@ export const PetitionProgressCard = ({ petition }: PetitionProgressCardProps) =>
               {daysLeft < 1 ? "60" : daysLeft} zile rămase
             </Text>
           </VStack>
-          {statut === PetitionStatus.PENDING && <>{signButton}</>}
+          <>{signButton}</>
         </VStack>
       </CardBody>
     </Card>

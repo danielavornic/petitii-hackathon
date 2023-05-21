@@ -6,6 +6,7 @@ const user = {
   name: "Ion",
   surname: "Creangă",
   id: "123456789",
+  locatie: "mun. Chișinău",
   location: "mun. Chișinău, Republica Moldova",
   isResident: true,
   birthDate: new Date("1950-01-01"),

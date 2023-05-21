@@ -14,13 +14,14 @@ export interface Petition {
   feedback: string;
   deadLine: string;
   category: string;
+  locatie?: string;
 }
 
 export interface PetitionFormData {
   name: string;
   content: string;
   category: string;
-  region?: string;
+  locatie?: string;
   toWho: string;
   checkedData: boolean;
   consentedData: boolean;
